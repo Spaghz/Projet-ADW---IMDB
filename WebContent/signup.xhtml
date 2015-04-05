@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="templates/templateClassic.xhtml">
+	<ui:define name="title">MIMovie - Signup</ui:define>
+	<ui:define name="additionalCSS">
+		<h:outputStylesheet library="css" name="bootstrap-datepicker.css"></h:outputStylesheet>
+	</ui:define>	
+	<ui:define name="content">
+		<ui:include src="/contents/signupContent.xhtml"></ui:include>
+	</ui:define>
+	<ui:define name="additionalJS">
+		<h:outputScript library="js" name="datePicker.js" />	
+	</ui:define>
+</ui:composition>
+</html>

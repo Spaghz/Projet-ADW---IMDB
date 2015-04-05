@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+	<div class="container theme-showcase" role="main">
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+			<h1>Welcome on MIMovie</h1>
+			<p>Yes, we've found the title by ourselves.</p>
+		</div>
+
+
+		<!-- Example row of columns -->
+		<div class="row">
+			<div class="col-md-8">
+
+				<ui:repeat var="currentNews" value="#{beanNews.newsToDisplay}">
+					<div id="newsDiv">
+						<h2>
+							<a href="#"><h:outputText value="#{currentNews.title}"></h:outputText></a>
+						</h2>
+						<p class="lead">
+							by <a href="index.php"><h:outputText
+									value="#{currentNews.author.nickName}"></h:outputText></a>
+						</p>
+						<p>
+							<span class="glyphicon glyphicon-time"></span> Posted on
+							<h:outputText value="#{currentNews.date}"></h:outputText>
+						</p>
+						<hr />
+						<img class="img-responsive" src="http://placehold.it/900x300"
+							alt="" />
+						<hr />
+						<p>
+							<h:outputText value="#{currentNews.content}"></h:outputText>
+						</p>
+
+
+						<hr />
+					</div>
+				</ui:repeat>
+
+			</div>
+
+			<div class="col-md-4">
+				<h2>Not yet a member?</h2>
+				<p>
+					<a class="btn btn-default" href="signup.xhtml" role="button">Sign
+						Up! </a>
+				</p>
+			</div>
+		</div>
+
+		<hr />
+
+
+		<footer>
+			<p>Company 2014</p>
+		</footer>
+	</div>
+	<!-- /container -->
+</ui:composition>
+</html>
+

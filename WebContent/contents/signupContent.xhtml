@@ -1,0 +1,161 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+	<div class="container">
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+			<h1>Subscribe!</h1>
+			<p>Or we'll kill you while you sleep.</p>
+			(With your own pillow)
+		</div>
+
+		<div class="row"></div>
+
+		<h:form id="registrationForm" class="form-horizontal">
+			<fieldset>
+				<!-- username input-->
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="userName"
+						value="Username"></h:outputLabel>
+					<div class="col-md-5">
+						<h:inputText value="#{beanSubscribe.user.nickName}" id="userName"
+							name="userName" type="text" class="form-control input-md"
+							required="true" label="Username">
+							<f:ajax event="blur" render="errorUserName" />
+						</h:inputText>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="userName"
+								id="errorUserName" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>		
+				
+				
+				<!-- email input-->
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="email"
+						value="Email address"></h:outputLabel>
+					<div class="col-md-5">
+						<h:inputText type="email" value="#{beanSubscribe.user.email}" id="email"
+							name="email" class="form-control input-md"
+							required="true" label="Email address">
+							<f:ajax event="blur" render="errorEmail" />
+							<f:validateRegex pattern="([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)"></f:validateRegex>
+						</h:inputText>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="email"
+								id="errorEmail" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>		
+			
+				<!-- Password input-->
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="password"
+						value="Password"></h:outputLabel>
+					<div class="col-md-5">
+						<h:inputSecret value="#{beanSubscribe.user.password}"
+							id="password" name="password" type="text"
+							class="form-control input-md" required="true" label="Password">
+							<f:ajax event="blur" render="errorPassword" />
+							<f:validateRegex pattern="((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})"></f:validateRegex>
+						</h:inputSecret>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message for="password" id="errorPassword"
+								errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>			
+			
+			
+				<!-- Text input-->
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="firstName"
+						value="First name"></h:outputLabel>
+					<div class="col-md-5">
+						<h:inputText value="#{beanSubscribe.user.firstName}"
+							id="firstName" name="firstName" type="text"
+							class="form-control input-md" required="true"
+							required-message="Please enter your firstname."
+							label="First name">
+							<f:ajax event="blur" render="errorFirstName" />
+						</h:inputText>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="firstName"
+								id="errorFirstName" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>
+
+				<!-- Text input-->
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="lastName"
+						value="Last name"></h:outputLabel>
+					<div class="col-md-5">
+						<h:inputText value="#{beanSubscribe.user.lastName}" id="lastName"
+							name="lastName" type="text" class="form-control input-md"
+							required="true" label="Last name">
+							<f:ajax event="blur" render="errorLastName" />
+						</h:inputText>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" id="errorLastName"
+								for="lastName" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>
+
+				<!-- Date input-->
+
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="birthDate"
+						value="Birthdate"></h:outputLabel>
+					<div class="col-md-5">
+
+						<div class="input-group date">
+							<h:inputText class="form-control datepicker" id="birthDate"
+								value="#{beanSubscribe.user.birthDate}" name="birthDate"
+								label="Birthdate">
+								<f:convertDateTime pattern="d/M/yyyy" />
+								<f:ajax event="blur" render="errorBirthDate" />
+							</h:inputText>
+							<span class="input-group-addon"> <i
+								class="glyphicon glyphicon-th"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message for="birthDate" id="errorBirthDate"
+								errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>
+
+				<!-- Button -->
+				<div class="form-group">
+					<div class="col-md-12">
+						<h:commandButton action="#{beanSubscribe.subscribe}"
+							id="subscribe" name="subscribeBtn" class="btn btn-primary"
+							value="subscribe"></h:commandButton>
+					</div>
+				</div>
+
+			</fieldset>
+		</h:form>
+	</div>
+</ui:composition>
+</html>
+
