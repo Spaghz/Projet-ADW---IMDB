@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS `rights` (
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nickName` varchar(64) NOT NULL,
-  `salt` varchar(20) NOT NULL,
+  `salt` varbinary(20) NOT NULL,
   `password` varchar(60) NOT NULL,
   `email` varchar(255) NOT NULL,
   `firstName` varchar(50) NOT NULL,
