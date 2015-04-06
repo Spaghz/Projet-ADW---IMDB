@@ -14,7 +14,11 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
+
 import utils.StringUtil;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -68,7 +72,7 @@ public class User {
 	private Boolean isPro	= false;
 	
 	@Column(name="salt")
-	private String salt = new SecureRandom().generateSeed(20).toString();
+	private byte[] salt;
 	
 	public User()
 	{
@@ -90,10 +94,13 @@ public class User {
 		this.lastName = lastName;
 		this.birthDate = birthDate;
 		this.pictureURI = pictureURI;
-		this.password = StringUtil.getEncryptedPassword(this.salt,password);
-		System.out.println(this.password);
 		this.setIsAdmin(isAdmin);
 		this.setIsPro(isPro);
+		
+		// Salt & Password generation
+		this.salt = new byte[20];
+		new SecureRandom().nextBytes(this.salt);
+		this.password = StringUtil.getEncryptedPassword(HexBin.encode(this.salt),password);
 	}
 	
 	public int getId() {

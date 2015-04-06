@@ -13,7 +13,6 @@ public class BeanSubscribe implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private User user;
-
 	private DAOUser daoUser;
 	
 	public BeanSubscribe()
