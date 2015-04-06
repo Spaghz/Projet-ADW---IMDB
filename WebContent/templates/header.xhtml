@@ -1,5 +1,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
 <ui:composition>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
@@ -14,15 +18,16 @@
 				<a class="navbar-brand" href="index.xhtml">MIMovie</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
-				<form class="navbar-form navbar-right">
+				<h:form  class="navbar-form navbar-right">
 					<div class="form-group">
-						<input type="text" placeholder="Email" class="form-control" />
+						<h:inputText id="inputEmailOrUsername" class="form-control" value="">
+						</h:inputText>
 					</div>
 					<div class="form-group">
-						<input type="password" placeholder="Password" class="form-control" />
+						<h:inputSecret id="passwordInput" class="form-control"></h:inputSecret>
 					</div>
-					<button type="submit" class="btn btn-success">Sign in</button>
-				</form>
+						<h:commandButton type="submit" class="btn btn-success" value="Sign in" style="margin-left:3px;" action="#{beanLogin.login}"></h:commandButton>
+				</h:form>
 			</div>
 			<!--/.navbar-collapse -->
 		</div>

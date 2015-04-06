@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="H:/workspace/ADWProj/mysql-connector-java-5.1.34-bin.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="lib" path="H:/workspace/ADWProj/validation-api-1.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="H:/workspace/ADWProj/primefaces-5.2.RC3.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -10,8 +10,9 @@ public class BeanLogin implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private User user;
+	private User 	user;
 	private DAOUser daoUser;
+	private String 	emailOrUsername;
 	
 	public BeanLogin()
 	{
@@ -19,7 +20,23 @@ public class BeanLogin implements Serializable {
 		daoUser = new DAOUserJPA();
 	}
 
-	private String login()
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getEmailOrUsername() {
+		return emailOrUsername;
+	}
+
+	public void setEmailOrUsername(String emailOrUsername) {
+		this.emailOrUsername = emailOrUsername;
+	}
+
+	public String login()
 	{
 		return "";
 	}
