@@ -1,6 +1,7 @@
 package beans;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 import core.User;
 import dao.DAOUser;
@@ -13,6 +14,7 @@ public class BeanLogin implements Serializable {
 	private User 	user;
 	private DAOUser daoUser;
 	private String 	emailOrUsername;
+	private String	password;
 	
 	public BeanLogin()
 	{
@@ -36,8 +38,28 @@ public class BeanLogin implements Serializable {
 		this.emailOrUsername = emailOrUsername;
 	}
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String login()
 	{
-		return "";
+		// Check if user input email or username
+		Pattern emailPattern = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
+		if (emailPattern.matcher(emailOrUsername).matches())
+		{
+			
+		}
+		else
+		{
+			
+		}
+		
+		
+		return"";
 	}
 }

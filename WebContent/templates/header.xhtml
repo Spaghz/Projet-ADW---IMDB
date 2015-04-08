@@ -20,11 +20,11 @@
 			<div id="navbar" class="navbar-collapse collapse">
 				<h:form  class="navbar-form navbar-right">
 					<div class="form-group">
-						<h:inputText id="inputEmailOrUsername" class="form-control" value="">
+						<h:inputText id="inputEmailOrUsername" class="form-control" value="#{beanLogin.emailOrUsername}">
 						</h:inputText>
 					</div>
 					<div class="form-group">
-						<h:inputSecret id="passwordInput" class="form-control"></h:inputSecret>
+						<h:inputSecret id="passwordInput" class="form-control" value="#{beanLogin.password}"></h:inputSecret>
 					</div>
 						<h:commandButton type="submit" class="btn btn-success" value="Sign in" style="margin-left:3px;" action="#{beanLogin.login}"></h:commandButton>
 				</h:form>

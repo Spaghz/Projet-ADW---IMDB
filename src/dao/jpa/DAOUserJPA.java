@@ -89,4 +89,10 @@ public class DAOUserJPA implements DAOUser {
 			return null;
 		}
 	}
+
+	@Override
+	public User getByEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
