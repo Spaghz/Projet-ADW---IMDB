@@ -1,13 +1,8 @@
 package test.jpa;
 
-import static org.junit.Assert.*;
-
+import static org.junit.Assert.assertEquals;
 import java.sql.Date;
-import java.util.Calendar;
-
 import org.junit.Before;
-import org.junit.Test;
-
 import core.Movie;
 import dao.DAOMovie;
 import dao.jpa.DAOJPA;
