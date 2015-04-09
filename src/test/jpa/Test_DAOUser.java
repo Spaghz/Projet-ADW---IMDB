@@ -52,9 +52,13 @@ public class Test_DAOUser {
 		
 		Rights r = daoRights.get(user1);
 		
-		assertNotNull(daoUser.get("Jean-Onche"));
+		assertNotNull(daoUser.getByUsername("Jean-Onche"));
 		
-		assertNull(daoUser.get("Inexistant"));
+		assertNull(daoUser.getByUsername("Inexistant"));
+
+		assertNotNull(daoUser.getByEmail("email@email.com"));
+		
+		assertNull(daoUser.getByEmail("lol@lol.com"));
 		
 		r.getId();
 	}

@@ -3,6 +3,9 @@ package beans;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
+import javax.faces.bean.ManagedBean;
+
+import utils.StringUtil;
 import core.User;
 import dao.DAOUser;
 import dao.jpa.DAOUserJPA;
@@ -11,10 +14,11 @@ public class BeanLogin implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	private int		userUniqueId;
 	private User 	user;
 	private DAOUser daoUser;
-	private String 	emailOrUsername;
-	private String	password;
+	private String 	inputLogin;
+	private String	inputPassword;
 	
 	public BeanLogin()
 	{
@@ -31,35 +35,44 @@ public class BeanLogin implements Serializable {
 	}
 
 	public String getEmailOrUsername() {
-		return emailOrUsername;
+		return inputLogin;
 	}
 
 	public void setEmailOrUsername(String emailOrUsername) {
-		this.emailOrUsername = emailOrUsername;
+		this.inputLogin = emailOrUsername;
 	}
 
 	public String getPassword() {
-		return password;
+		return inputPassword;
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.inputPassword = password;
 	}
 
 	public String login()
 	{
+		int code;
 		// Check if user input email or username
-		Pattern emailPattern = Pattern.compile("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
-		if (emailPattern.matcher(emailOrUsername).matches())
+		if (StringUtil.isEmailAddress(inputLogin))
+			userUniqueId = daoUser.getCodeByEmail(inputLogin);
+		else
+			userUniqueId = daoUser.getCodeByUsername(inputLogin);
+		
+		if (user==null)
 		{
-			
+			return "Authentification failed!";
 		}
 		else
 		{
-			
+			// String comparison for password
+			if ((StringUtil.getEncryptedPassword(user.getSalt(),this.inputPassword)).equals(user.getPassword()))
+			{
+				System.out.println("successfull!");
+			}
+			else
+				System.out.println("not successful!");
+			return "Authentification successful!";
 		}
-		
-		
-		return"";
 	}
 }

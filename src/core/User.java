@@ -61,7 +61,7 @@ public class User {
 	@Temporal(TemporalType.TIMESTAMP)
 	@NotNull(message = "Please enter your birthdate")
 	private Date birthDate;
-	
+
 	@Column(name="pictureURI")
 	private String pictureURI;
 	
@@ -100,7 +100,7 @@ public class User {
 		// Salt & Password generation
 		this.salt = new byte[20];
 		new SecureRandom().nextBytes(this.salt);
-		this.password = StringUtil.getEncryptedPassword(HexBin.encode(this.salt),password);
+		this.password = StringUtil.getEncryptedPassword(this.salt,password);
 	}
 	
 	public int getId() {
@@ -181,6 +181,10 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public byte[] getSalt() {
+		return salt;
 	}
 
 	private void testNickName(String nickName) {

@@ -20,12 +20,12 @@ public class DAOUserJPA implements DAOUser {
 		return instance;
 	}
 
-	public User get(int code) {
+	public User getByCode(int code) {
 		return code > -1 ? DAOJPA.getManager().find(User.class, code) : null;
 	}
 
 	public void save(User user) {
-		if ((user.getId() == -1)&&(!nicknameExists(user.getNickName())))
+		if ((user.getId() == -1)&&(!nicknameExists(user.getNickName()))&&(!emailExists(user.getEmail())))
 		{
 			DAOJPA.getManager().persist(user);
 			DAOJPA.commit();
@@ -72,13 +72,13 @@ public class DAOUserJPA implements DAOUser {
 		ArrayList<User> users = new ArrayList<User>((int)numOfUsers);
 		
 		for(int i = 1; i <= numOfUsers ; i++ )
-			users.add(get(i));
+			users.add(getByCode(i));
 		
 		return users;
 	}
 
 
-	public User get(String nickName) 
+	public User getByUsername(String nickName) 
 	{
 		try
 		{
@@ -92,7 +92,49 @@ public class DAOUserJPA implements DAOUser {
 
 	@Override
 	public User getByEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		try
+		{
+			return (User)DAOJPA.getManager().createQuery("select u from User u where u.email = :email").setParameter("email",email).getSingleResult();
+		}
+		catch (NoResultException e)
+		{
+			return null;
+		}
+	}
+
+	public Object getAuthentificationInfo(int code) 
+	{
+		try
+		{
+			return DAOJPA.getManager().createQuery("select u.salt,u.password from User u where u.id = :id").setParameter("id",code).getSingleResult();
+		}
+		catch (NoResultException e)
+		{
+			return null;
+		}
+	}
+
+	@Override
+	public int getCodeByUsername(String username) {
+		try
+		{
+			return (int)DAOJPA.getManager().createQuery("select u.id from User u where u.nickName = :nickName").setParameter("nickName",username).getSingleResult();
+		}
+		catch (NoResultException e)
+		{
+			return -1;
+		}
+	}
+
+	@Override
+	public int getCodeByEmail(String email) {
+		try
+		{
+			return (int)DAOJPA.getManager().createQuery("select u.id from User u where u.email = :email").setParameter("email",email).getSingleResult();
+		}
+		catch (NoResultException e)
+		{
+			return -1;
+		}
 	}
 }
