@@ -21,7 +21,17 @@ public class DAOUserJPA implements DAOUser {
 	}
 
 	public User getByCode(int code) {
-		return code > -1 ? DAOJPA.getManager().find(User.class, code) : null;
+		User 	user 		= code > -1 ? DAOJPA.getManager().find(User.class, code) : null;
+		
+		if (user==null)
+			return null;
+		
+		Rights 	userRights 	= DAOJPA.getManager().find(Rights.class,code);
+		
+		user.setIsAdmin(userRights.getIsAdmin());
+		user.setIsPro(userRights.getIsPro());
+		
+		return user;
 	}
 
 	public void save(User user) {

@@ -3,9 +3,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
-	
+
 <ui:composition>
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed"
@@ -17,18 +18,63 @@
 				</button>
 				<a class="navbar-brand" href="index.xhtml">MIMovie</a>
 			</div>
-			<div id="navbar" class="navbar-collapse collapse">
-				<h:form  class="navbar-form navbar-right">
-					<div class="form-group">
-						<h:inputText id="inputEmailOrUsername" class="form-control" value="#{beanLogin.emailOrUsername}">
-						</h:inputText>
-					</div>
-					<div class="form-group">
-						<h:inputSecret id="passwordInput" class="form-control" value="#{beanLogin.password}"></h:inputSecret>
-					</div>
-						<h:commandButton type="submit" class="btn btn-success" value="Sign in" style="margin-left:3px;" action="#{beanLogin.login}"></h:commandButton>
-				</h:form>
-			</div>
+
+			<h:panelGroup rendered="#{beanLogin.user==null}">
+				<div id="navbar" class="navbar-collapse collapse">
+					<h:form class="navbar-form navbar-right">
+						<div class="form-group">
+							<h:inputText id="inputEmailOrUsername" class="form-control"
+								value="#{beanLogin.emailOrUsername}">
+							</h:inputText>
+						</div>
+						<div class="form-group">
+							<h:inputSecret id="passwordInput" class="form-control"
+								value="#{beanLogin.password}"></h:inputSecret>
+						</div>
+						<h:commandButton type="submit" class="btn btn-success"
+							value="Sign in" style="margin-left:3px;"
+							action="#{beanLogin.login}"></h:commandButton>
+					</h:form>
+				</div>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{beanLogin.user!=null}">
+				<div class="collapse navbar-collapse"
+					id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Celebrities <span
+								class="sr-only">(current)</span></a></li>
+						<li><a href="#">Movies</a></li>
+					</ul>
+					<h:form class="navbar-form navbar-left" role="search">
+						<div class="form-group">
+							<h:inputText type="text" class="form-control"
+								placeholder="Search" />
+						</div>
+						<h:commandButton style="margin-left:3px;" type="submit"
+							class="btn btn-default" value="Search"></h:commandButton>
+					</h:form>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="false">Account
+								<span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="#">My profile</a></li>
+								<h:panelGroup rendered="#{beanLogin.user.isAdmin==true}">
+									<li><h:link>Admin pannel</h:link></li>
+								</h:panelGroup>
+								<li class="divider"></li>
+								<li><h:form>
+										<h:commandLink class="dropdownLink" href="index.xhtml"
+											action="#{beanLogin.disconnect}" value="Disconnect"></h:commandLink>
+									</h:form></li>
+
+							</ul></li>
+					</ul>
+				</div>
+				<!-- /.navbar-collapse -->
+			</h:panelGroup>
 			<!--/.navbar-collapse -->
 		</div>
 	</nav>

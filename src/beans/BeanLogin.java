@@ -1,11 +1,6 @@
 package beans;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.regex.Pattern;
-
-import javax.faces.bean.ManagedBean;
-
 import utils.StringUtil;
 import core.User;
 import dao.DAOUser;
@@ -16,15 +11,13 @@ public class BeanLogin implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private int		userUniqueId;
-	private User 	user;
-	private DAOUser daoUser;
+	private User 	user =  null;
+	private DAOUser daoUser = new DAOUserJPA();
 	private String 	inputLogin;
 	private String	inputPassword;
 	
 	public BeanLogin()
 	{
-		user = new User();
-		daoUser = new DAOUserJPA();
 	}
 
 	public User getUser() {
@@ -60,21 +53,25 @@ public class BeanLogin implements Serializable {
 			userUniqueId = daoUser.getCodeByUsername(inputLogin);
 		
 		if (userUniqueId==-1)
-		{
 			return "Authentification failed!";
-		}
-		else
+
+		// Retrieving salt & encrypted password
+		Object[] authInfos = (Object[]) daoUser.getAuthentificationInfo(userUniqueId);
+		
+		// String comparison for password
+		if ((StringUtil.getEncryptedPassword((byte[])authInfos[0],this.inputPassword)).equals((String)(authInfos[1])))
 		{
-			// Retrieving salt & encrypted password
-			Object[] authInfos = (Object[]) daoUser.getAuthentificationInfo(userUniqueId);
-			// String comparison for password
-			if ((StringUtil.getEncryptedPassword((byte[])authInfos[0],this.inputPassword)).equals((String)(authInfos[1])))
-			{
-				System.out.println("successfull!");
-			}
-			else
-				System.out.println("not successful!");
+			//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", daoUser.getByCode(userUniqueId));
+			user = daoUser.getByCode(userUniqueId);
+			return "Authentification successful!";
 		}
-		return "";
+
+		return("Authentification failed!");
+	}
+	
+	public String disconnect()
+	{
+		user=null;
+		return"";
 	}
 }
