@@ -62,7 +62,7 @@
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#">My profile</a></li>
 								<h:panelGroup rendered="#{beanLogin.user.isAdmin==true}">
-									<li><h:link>Admin pannel</h:link></li>
+									<li><h:link outcome="pro/adminDashboard.xhtml" value="Admin pannel"></h:link></li>
 								</h:panelGroup>
 								<li class="divider"></li>
 								<li><h:form>

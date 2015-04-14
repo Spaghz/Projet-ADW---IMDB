@@ -17,7 +17,7 @@ public class SeedDB {
 	
 	private DAONews daoNews;
 	private DAOUser daoUser;
-	private User 	user1;
+	private User 	adminUser1,proUser1,proUser2;
 	
 	@org.junit.Test
 	public void test() 
@@ -30,7 +30,9 @@ public class SeedDB {
 	{
 		daoNews = new DAONewsJPA();
 		daoUser = new DAOUserJPA();
-		user1 = new User("admin", "admin", "justinbieber@bieber.com","Justin","Bieber", new java.util.Date(), "",true,true);
+		adminUser1 	= new User("admin", "admin", "justinbieber@bieber.com","Justin","Bieber", new java.util.Date(), "",true,true);
+		proUser1	= new User("user1","mdp1","a@a.com","Élie","Yaffa",new java.util.Date(),"",false,true);
+		proUser2	= new User("user2","mdp2","b@b.com","Kaaris","Sevran",new java.util.Date(),"",false,true);
 	}
 	
 	public void seedDB()
@@ -42,14 +44,16 @@ public class SeedDB {
 	
 	public void seedUsers()
 	{
-		daoUser.save(user1);
+		daoUser.save(adminUser1);
+		daoUser.save(proUser1);
+		daoUser.save(proUser2);
 	}
 	
 	public void seedNews()
 	{
 		for (int i = 1 ; i <= 5 ; i++)
 		{
-			daoNews.save(new News(user1,"title"+i,"content"+i,"",new Date()));
+			daoNews.save(new News(adminUser1,"title"+i,"content"+i,"",new Date()));
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

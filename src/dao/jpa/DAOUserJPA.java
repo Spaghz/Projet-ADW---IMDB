@@ -92,7 +92,17 @@ public class DAOUserJPA implements DAOUser {
 	{
 		try
 		{
-			return (User)DAOJPA.getManager().createQuery("select u from User u where u.nickName = :nickName").setParameter("nickName",nickName).getSingleResult();
+			User user = (User)DAOJPA.getManager().createQuery("select u from User u where u.nickName = :nickName").setParameter("nickName",nickName).getSingleResult();
+			
+			if (user==null)
+				return null;
+			
+			Rights 	userRights 	= DAOJPA.getManager().find(Rights.class,user.getId());
+			
+			user.setIsAdmin(userRights.getIsAdmin());
+			user.setIsPro(userRights.getIsPro());
+			
+			return user;
 		}
 		catch (NoResultException e)
 		{
@@ -104,7 +114,17 @@ public class DAOUserJPA implements DAOUser {
 	public User getByEmail(String email) {
 		try
 		{
-			return (User)DAOJPA.getManager().createQuery("select u from User u where u.email = :email").setParameter("email",email).getSingleResult();
+			User user = (User)DAOJPA.getManager().createQuery("select u from User u where u.email = :email").setParameter("email",email).getSingleResult();
+		
+			if (user==null)
+				return null;
+			
+			Rights 	userRights 	= DAOJPA.getManager().find(Rights.class,user.getId());
+			
+			user.setIsAdmin(userRights.getIsAdmin());
+			user.setIsPro(userRights.getIsPro());
+			
+			return user;
 		}
 		catch (NoResultException e)
 		{

@@ -26,7 +26,18 @@
 		<listener-class>com.sun.faces.config.ConfigureListener</listener-class>
 	</listener>
 	<context-param>
-	    <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
-	    <param-value>true</param-value>
+		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+		<param-value>true</param-value>
 	</context-param>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>SecuredContent</web-resource-name>
+			<url-pattern>/pro/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>1</role-name>
+		</auth-constraint>
+	</security-constraint>
 </web-app>
