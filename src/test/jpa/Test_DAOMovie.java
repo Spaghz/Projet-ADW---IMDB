@@ -1,12 +1,15 @@
 package test.jpa;
 
 import static org.junit.Assert.assertEquals;
+
 import java.sql.Date;
+
 import org.junit.Before;
+
 import core.Movie;
 import dao.DAOMovie;
-import dao.jpa.DAOJPA;
 import dao.jpa.DAOMovieJPA;
+import dao.jpa.managers.DAOJPAPublished;
 
 public class Test_DAOMovie {
 	private DAOMovie 	dao;
@@ -21,7 +24,7 @@ public class Test_DAOMovie {
 	public void init() {
 		movie1 = new Movie("Star Wars", new Date(5),500000);
 		dao = DAOMovieJPA.getInstance();
-		DAOJPA.viderBase();
+		DAOJPAPublished.viderBase();
 	}
 	
 	public void testMovie()

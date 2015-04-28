@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import core.Rights;
 import core.User;
 import dao.DAOUser;
+import dao.jpa.managers.DAOJPAPublished;
 
 public class DAOUserJPA implements DAOUser {
 
@@ -21,12 +22,12 @@ public class DAOUserJPA implements DAOUser {
 	}
 
 	public User getByCode(int code) {
-		User 	user 		= code > -1 ? DAOJPA.getManager().find(User.class, code) : null;
+		User 	user 		= code > -1 ? DAOJPAPublished.getManager().find(User.class, code) : null;
 		
 		if (user==null)
 			return null;
 		
-		Rights 	userRights 	= DAOJPA.getManager().find(Rights.class,code);
+		Rights 	userRights 	= DAOJPAPublished.getManager().find(Rights.class,code);
 		
 		user.setIsAdmin(userRights.getIsAdmin());
 		user.setIsPro(userRights.getIsPro());
@@ -37,11 +38,11 @@ public class DAOUserJPA implements DAOUser {
 	public void save(User user) {
 		if ((user.getId() == -1)&&(!nicknameExists(user.getNickName()))&&(!emailExists(user.getEmail())))
 		{
-			DAOJPA.getManager().persist(user);
-			DAOJPA.commit();
+			DAOJPAPublished.getManager().persist(user);
+			DAOJPAPublished.commit();
 			
-			DAOJPA.getManager().persist(new Rights(user));
-			DAOJPA.commit();
+			DAOJPAPublished.getManager().persist(new Rights(user));
+			DAOJPAPublished.commit();
 			
 		} else
 			throw new IllegalArgumentException(
@@ -54,13 +55,13 @@ public class DAOUserJPA implements DAOUser {
 	}
 
 	public long count() {
-		return ((Long) DAOJPA.getManager()
+		return ((Long) DAOJPAPublished.getManager()
 				.createNativeQuery("SELECT COUNT(*) FROM users")
 				.getSingleResult()).longValue();
 	}
 
 	public boolean nicknameExists(String nickName) {
-		return (DAOJPA
+		return (DAOJPAPublished
 				.getManager()
 				.createQuery(
 						"SELECT u FROM User u WHERE u.nickName LIKE :nickName")
@@ -69,7 +70,7 @@ public class DAOUserJPA implements DAOUser {
 	
 	public boolean emailExists(String email)
 	{
-		return (DAOJPA
+		return (DAOJPAPublished
 				.getManager()
 				.createQuery(
 						"SELECT u FROM User u WHERE u.email LIKE :email")
@@ -92,12 +93,12 @@ public class DAOUserJPA implements DAOUser {
 	{
 		try
 		{
-			User user = (User)DAOJPA.getManager().createQuery("select u from User u where u.nickName = :nickName").setParameter("nickName",nickName).getSingleResult();
+			User user = (User)DAOJPAPublished.getManager().createQuery("select u from User u where u.nickName = :nickName").setParameter("nickName",nickName).getSingleResult();
 			
 			if (user==null)
 				return null;
 			
-			Rights 	userRights 	= DAOJPA.getManager().find(Rights.class,user.getId());
+			Rights 	userRights 	= DAOJPAPublished.getManager().find(Rights.class,user.getId());
 			
 			user.setIsAdmin(userRights.getIsAdmin());
 			user.setIsPro(userRights.getIsPro());
@@ -114,12 +115,12 @@ public class DAOUserJPA implements DAOUser {
 	public User getByEmail(String email) {
 		try
 		{
-			User user = (User)DAOJPA.getManager().createQuery("select u from User u where u.email = :email").setParameter("email",email).getSingleResult();
+			User user = (User)DAOJPAPublished.getManager().createQuery("select u from User u where u.email = :email").setParameter("email",email).getSingleResult();
 		
 			if (user==null)
 				return null;
 			
-			Rights 	userRights 	= DAOJPA.getManager().find(Rights.class,user.getId());
+			Rights 	userRights 	= DAOJPAPublished.getManager().find(Rights.class,user.getId());
 			
 			user.setIsAdmin(userRights.getIsAdmin());
 			user.setIsPro(userRights.getIsPro());
@@ -136,7 +137,7 @@ public class DAOUserJPA implements DAOUser {
 	{
 		try
 		{
-			return DAOJPA.getManager().createQuery("select u.salt,u.password from User u where u.id = :id").setParameter("id",code).getSingleResult();
+			return DAOJPAPublished.getManager().createQuery("select u.salt,u.password from User u where u.id = :id").setParameter("id",code).getSingleResult();
 		}
 		catch (NoResultException e)
 		{
@@ -148,7 +149,7 @@ public class DAOUserJPA implements DAOUser {
 	public int getCodeByUsername(String username) {
 		try
 		{
-			return (int)DAOJPA.getManager().createQuery("select u.id from User u where u.nickName = :nickName").setParameter("nickName",username).getSingleResult();
+			return (int)DAOJPAPublished.getManager().createQuery("select u.id from User u where u.nickName = :nickName").setParameter("nickName",username).getSingleResult();
 		}
 		catch (NoResultException e)
 		{
@@ -160,7 +161,7 @@ public class DAOUserJPA implements DAOUser {
 	public int getCodeByEmail(String email) {
 		try
 		{
-			return (int)DAOJPA.getManager().createQuery("select u.id from User u where u.email = :email").setParameter("email",email).getSingleResult();
+			return (int)DAOJPAPublished.getManager().createQuery("select u.id from User u where u.email = :email").setParameter("email",email).getSingleResult();
 		}
 		catch (NoResultException e)
 		{

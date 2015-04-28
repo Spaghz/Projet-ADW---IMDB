@@ -6,21 +6,23 @@ import java.util.List;
 import core.News;
 import core.User;
 import dao.DAONews;
+import dao.jpa.managers.DAOJPAPublished;
+import dao.jpa.managers.DAOJPAUnpublished;
 
 public class DAONewsJPA implements DAONews {
 
 	@Override
 	public News get(int id) 
 	{
-		return id > -1 ? DAOJPA.getManager().find(News.class, id) : null;
+		return id > -1 ? DAOJPAPublished.getManager().find(News.class, id) : null;
 	}
 
 	@Override
 	public void save(News news) {
 		if (news.getId()==-1)
 		{
-			DAOJPA.getManager().persist(news);
-			DAOJPA.commit();
+			DAOJPAUnpublished.getManager().persist(news);
+			DAOJPAUnpublished.commit();
 		}
 		else
 		{
@@ -42,7 +44,7 @@ public class DAONewsJPA implements DAONews {
 
 	@Override
 	public long count() {
-		return ((Long) DAOJPA.getManager()
+		return ((Long) DAOJPAPublished.getManager()
 				.createNativeQuery("SELECT COUNT(*) FROM news")
 				.getSingleResult()).longValue();
 	}

@@ -5,20 +5,21 @@ import javax.persistence.NoResultException;
 import core.Rights;
 import core.User;
 import dao.DAORights;
+import dao.jpa.managers.DAOJPAPublished;
 
 public class DAORightsJPA implements DAORights {
 
 	@Override
 	public Rights get(int code) 
 	{
-		return code > -1 ? DAOJPA.getManager().find(Rights.class, code) : null;
+		return code > -1 ? DAOJPAPublished.getManager().find(Rights.class, code) : null;
 	}
 
 	@Override
 	public Rights get(User user) {
 		try
 		{
-			return (Rights)DAOJPA.getManager().createQuery("select r from Rights r where r.idUser = :idUser").setParameter("idUser",user.getId()).getSingleResult();		
+			return (Rights)DAOJPAPublished.getManager().createQuery("select r from Rights r where r.idUser = :idUser").setParameter("idUser",user.getId()).getSingleResult();		
 		}
 		catch (NoResultException e)
 		{

@@ -16,10 +16,10 @@ import core.User;
 import dao.DAOMovie;
 import dao.DAORights;
 import dao.DAOUser;
-import dao.jpa.DAOJPA;
 import dao.jpa.DAOMovieJPA;
 import dao.jpa.DAORightsJPA;
 import dao.jpa.DAOUserJPA;
+import dao.jpa.managers.DAOJPAPublished;
 
 public class Test_DAOUser {
 	private DAOUser 		daoUser = new DAOUserJPA();
@@ -40,7 +40,7 @@ public class Test_DAOUser {
 	
 	public void testUser()
 	{
-		DAOJPA.viderBase();
+		DAOJPAPublished.viderBase();
 
 		assertTrue(daoUser.count()==0);
 		

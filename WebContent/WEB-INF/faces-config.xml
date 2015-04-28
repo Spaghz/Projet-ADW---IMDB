@@ -19,5 +19,15 @@
 		<managed-bean-class>beans.BeanLogin</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>beanAddMovie</managed-bean-name>
+		<managed-bean-class>beans.BeanAddMovie</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>beanCelebrities</managed-bean-name>
+		<managed-bean-class>beans.BeanCelebrities</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
 
 </faces-config>

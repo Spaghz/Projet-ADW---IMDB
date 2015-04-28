@@ -1,18 +1,18 @@
-package dao.jpa;
+package dao.jpa.managers;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
-public class DAOJPA {
+public class DAOJPAPublished extends DAOJPAManager{
 	private static EntityManagerFactory emf = null;
 	private static EntityManager em = null;
 	private static EntityTransaction tx = null;
 
 	public static EntityManager getManager() {
 		if (em == null) {
-			emf = Persistence.createEntityManagerFactory("imdb");
+			emf = Persistence.createEntityManagerFactory("imdbPublish");
 			em = emf.createEntityManager();
 			tx = em.getTransaction();
 		}
@@ -48,5 +48,7 @@ public class DAOJPA {
 		getManager().createNativeQuery("ALTER TABLE rights AUTO_INCREMENT = 1").executeUpdate();
 		getManager().createQuery("DELETE FROM News").executeUpdate();
 		getManager().createNativeQuery("ALTER TABLE news AUTO_INCREMENT = 1").executeUpdate();
+		getManager().createQuery("DELETE FROM Celebrity").executeUpdate();
+		getManager().createNativeQuery("ALTER TABLE celebrity AUTO_INCREMENT = 1").executeUpdate();
 		}
 }

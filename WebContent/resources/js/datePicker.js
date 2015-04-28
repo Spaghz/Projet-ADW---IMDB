@@ -6,3 +6,12 @@ $(function() {
 	    dateFormat: 'dd/mm/yy'
 	});
 });
+
+$(function() {
+	$("#addMovieForm\\:releaseDate").datepicker({
+	    clearBtn: true,
+	    autoclose: true,
+	    toggleActive: true,
+	    dateFormat: 'dd/mm/yy'
+	});
+});

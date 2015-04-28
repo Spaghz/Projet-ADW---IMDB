@@ -42,10 +42,35 @@
 				<div class="collapse navbar-collapse"
 					id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
-						<li class="active"><a href="#">Celebrities <span
-								class="sr-only">(current)</span></a></li>
-						<li><a href="#">Movies</a></li>
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="false">Movies
+								<span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<h:link value="List of movies" outcome="movies.xhtml"></h:link>
+								</li>
+								<li>
+									<h:link value="Add a movie" outcome="addMovie.xhtml"></h:link>
+								</li>
+							</ul></li>
 					</ul>
+					
+					<ul class="nav navbar-nav">
+						<li class="dropdown"><a href="#" class="dropdown-toggle"
+							data-toggle="dropdown" role="button" aria-expanded="false">Celebrities
+								<span class="caret"></span>
+						</a>
+							<ul class="dropdown-menu" role="menu">
+								<li>
+									<h:link value="List of celebrities" outcome="celebrities.xhtml"></h:link>
+								</li>
+								<li>
+									<h:link value="Add a celebrity" outcome="addCelebrities.xhtml"></h:link>
+								</li>
+							</ul></li>
+					</ul>
+					
 					<h:form class="navbar-form navbar-left" role="search">
 						<div class="form-group">
 							<h:inputText type="text" class="form-control"
@@ -62,14 +87,14 @@
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#">My profile</a></li>
 								<h:panelGroup rendered="#{beanLogin.user.isAdmin==true}">
-									<li><h:link outcome="pro/adminDashboard.xhtml" value="Admin pannel"></h:link></li>
+									<li><h:link outcome="adminDashboard.xhtml"
+											value="Admin pannel"></h:link></li>
 								</h:panelGroup>
 								<li class="divider"></li>
 								<li><h:form>
 										<h:commandLink class="dropdownLink" href="index.xhtml"
 											action="#{beanLogin.disconnect}" value="Disconnect"></h:commandLink>
 									</h:form></li>
-
 							</ul></li>
 					</ul>
 				</div>

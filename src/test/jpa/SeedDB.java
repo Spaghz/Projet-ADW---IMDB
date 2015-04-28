@@ -1,22 +1,26 @@
 package test.jpa;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.junit.Before;
 
+import core.Celebrity;
 import core.News;
 import core.User;
+import dao.DAOCelebrity;
 import dao.DAONews;
 import dao.DAOUser;
-import dao.jpa.DAOJPA;
+import dao.jpa.DAOCelebrityJPA;
 import dao.jpa.DAONewsJPA;
 import dao.jpa.DAOUserJPA;
+import dao.jpa.managers.DAOJPAPublished;
+import de.svenjacobs.loremipsum.LoremIpsum;
 
 public class SeedDB {
 	
 	private DAONews daoNews;
 	private DAOUser daoUser;
+	private DAOCelebrity daoCelebrity;
 	private User 	adminUser1,proUser1,proUser2;
 	
 	@org.junit.Test
@@ -30,6 +34,7 @@ public class SeedDB {
 	{
 		daoNews = new DAONewsJPA();
 		daoUser = new DAOUserJPA();
+		daoCelebrity = new DAOCelebrityJPA();
 		adminUser1 	= new User("admin", "admin", "justinbieber@bieber.com","Justin","Bieber", new java.util.Date(), "",true,true);
 		proUser1	= new User("user1","mdp1","a@a.com","Élie","Yaffa",new java.util.Date(),"",false,true);
 		proUser2	= new User("user2","mdp2","b@b.com","Kaaris","Sevran",new java.util.Date(),"",false,true);
@@ -37,9 +42,10 @@ public class SeedDB {
 	
 	public void seedDB()
 	{
-		DAOJPA.viderBase();
+		DAOJPAPublished.viderBase();
 		seedUsers();
 		seedNews();
+		seedCelebrities();
 	}
 	
 	public void seedUsers()
@@ -62,5 +68,20 @@ public class SeedDB {
 			}
 		}
 			
+	}
+	
+	public void seedCelebrities()
+	{
+		Celebrity 	c1 = new Celebrity("Clint","Eastwood",new LoremIpsum().getWords(50),new Date(1930,5,31),""),
+					c2 = new Celebrity("Christoph","Waltz",new LoremIpsum().getWords(50),new Date(1956,10,4),"");
+		
+		try {
+			daoCelebrity.saveToPublish(c1);
+			daoCelebrity.saveToPublish(c2);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }

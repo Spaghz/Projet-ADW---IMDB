@@ -8,4 +8,5 @@ public interface DAOMovie
 	void 	save	(Movie movie) throws Exception;
 	void 	remove	(Movie movie);
 	long 	count	();
+	boolean	exists	(String name);
 }

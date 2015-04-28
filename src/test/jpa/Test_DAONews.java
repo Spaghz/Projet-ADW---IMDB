@@ -5,8 +5,8 @@ import javax.validation.constraints.AssertTrue;
 import static org.junit.Assert.*;
 import core.News;
 import dao.DAONews;
-import dao.jpa.DAOJPA;
 import dao.jpa.DAONewsJPA;
+import dao.jpa.managers.DAOJPAPublished;
 
 public class Test_DAONews {
 	private DAONews 	dao = new DAONewsJPA();

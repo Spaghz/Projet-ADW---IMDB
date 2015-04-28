@@ -2,8 +2,10 @@ package dao.jpa;
 
 import core.Movie;
 import dao.DAOMovie;
+import dao.jpa.managers.DAOJPAPublished;
+import dao.jpa.managers.DAOJPAUnpublished;
 
-public class DAOMovieJPA extends DAOJPA implements DAOMovie {
+public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 	
 	static private DAOMovieJPA instance = null;
 
@@ -17,7 +19,7 @@ public class DAOMovieJPA extends DAOJPA implements DAOMovie {
 	@Override
 	public Movie get(int code) 
 	{
-		return code>=0?DAOJPA.getManager().find(Movie.class,code):null;
+		return code>=0?DAOJPAPublished.getManager().find(Movie.class,code):null;
 	}
 
 	@Override
@@ -25,8 +27,8 @@ public class DAOMovieJPA extends DAOJPA implements DAOMovie {
 	{
 		if (movie.getId() == -1)
 		{
-			DAOJPA.getManager().persist(movie);
-			DAOJPA.commit();
+			DAOJPAUnpublished.getManager().persist(movie);
+			DAOJPAUnpublished.commit();
 		}
 		else
 		{
@@ -39,16 +41,25 @@ public class DAOMovieJPA extends DAOJPA implements DAOMovie {
 	{
 		if (movie.getId() != -1)
 		{
-			DAOJPA.getManager().remove(movie);
-			DAOJPA.commit();
+			DAOJPAPublished.getManager().remove(movie);
+			DAOJPAPublished.commit();
 			movie.setId(-1);
 		}
 	}
 
 	@Override
 	public long count() {
-		return ((Long) DAOJPA.getManager()
+		return ((Long) DAOJPAPublished.getManager()
 				.createNativeQuery("SELECT COUNT(*) FROM movies")
 				.getSingleResult()).longValue();
+	}
+
+	@Override
+	public boolean exists(String movieTitle) {
+		return (DAOJPAPublished
+				.getManager()
+				.createQuery(
+						"SELECT m FROM Movie m WHERE m:title LIKE :title")
+				.setParameter("title", movieTitle).getResultList().size() > 0);
 	}
 }

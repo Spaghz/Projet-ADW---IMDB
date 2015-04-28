@@ -63,6 +63,8 @@ public class BeanLogin implements Serializable {
 		{
 			//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", daoUser.getByCode(userUniqueId));
 			user = daoUser.getByCode(userUniqueId);
+			inputLogin = null;
+			inputPassword = null;
 			return "Authentification successful!";
 		}
 
@@ -73,5 +75,10 @@ public class BeanLogin implements Serializable {
 	{
 		user=null;
 		return"";
+	}
+	
+	public Boolean canAddMovies()
+	{
+		return user==null?false:user.getIsPro();
 	}
 }

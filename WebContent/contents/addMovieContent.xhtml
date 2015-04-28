@@ -1,0 +1,70 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+	<div class="container">
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+			<h1>Wanna add a movie?</h1>
+			<p>It better be damn good, son.</p>
+		</div>
+
+		<div class="row"></div>
+
+		<h:form id="addMovieForm" class="form-horizontal">
+			<fieldset>
+			
+				<!-- Movie title -->
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="movieTitle"
+						value="Movie title"></h:outputLabel>
+					<div class="col-md-5">
+						<h:inputText value="#{beanAddMovie.movie.title}" id="movieTitle"
+							name="movieTitle" type="text" class="form-control input-md"
+							required="true" label="movie title">
+							<f:ajax event="blur" render="errorMovieTitle" />
+						</h:inputText>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="movieTitle"
+								id="errorMovieTitle" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>		
+				
+				<!-- Release Date -->
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="releaseDate"
+						value="releaseDate"></h:outputLabel>
+					<div class="col-md-5">
+
+						<div class="input-group date">
+							<h:inputText class="form-control datepicker" id="releaseDate"
+								value="#{beanAddMovie.movie.releaseDate}" name="releaseDate"
+								label="releaseDate">
+								<f:convertDateTime pattern="d/M/yyyy" />
+								<f:ajax event="blur" render="errorreleaseDate" />
+							</h:inputText>
+							<span class="input-group-addon"> <i
+								class="glyphicon glyphicon-th"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message for="releaseDate" id="errorreleaseDate"
+								errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>		
+				
+				
+			</fieldset>
+		</h:form>
+	</div>
+</ui:composition>
+</html>
+
