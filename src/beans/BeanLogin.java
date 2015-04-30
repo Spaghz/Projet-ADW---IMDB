@@ -1,11 +1,15 @@
 package beans;
 
 import java.io.Serializable;
+
+import javax.faces.bean.ManagedBean;
+
 import utils.StringUtil;
 import core.User;
 import dao.DAOUser;
 import dao.jpa.DAOUserJPA;
 
+@ManagedBean(name="beanLogin")
 public class BeanLogin implements Serializable {
 
 	private static final long serialVersionUID = 1L;

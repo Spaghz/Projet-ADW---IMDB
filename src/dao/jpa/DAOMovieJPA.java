@@ -1,6 +1,10 @@
 package dao.jpa;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import core.Movie;
+import core.News;
 import dao.DAOMovie;
 import dao.jpa.managers.DAOJPAPublished;
 import dao.jpa.managers.DAOJPAUnpublished;
@@ -61,5 +65,28 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 				.createQuery(
 						"SELECT m FROM Movie m WHERE m:title LIKE :title")
 				.setParameter("title", movieTitle).getResultList().size() > 0);
+	}
+
+	@Override
+	public List<Movie> loadLasts(int n) {
+		int numOfMovies = (int)count();
+		ArrayList<Movie> movieList = new ArrayList<Movie>(n);
+		
+		for(int i = 0; (i < n)&&(numOfMovies-i>0) ; i++ )
+			movieList.add(get(numOfMovies-i));
+		
+		return movieList;
+	}
+
+	@Override
+	public List<Movie> loadAll() {
+		long numOfMovies = this.count();
+		
+		ArrayList<Movie> movieList = new ArrayList<Movie>((int)numOfMovies);
+		
+		for(int i = 1; i <= numOfMovies ; i++ )
+			movieList.add(get(i));
+		
+		return movieList;
 	}
 }

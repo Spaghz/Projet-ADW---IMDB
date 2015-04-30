@@ -1,5 +1,7 @@
 package dao;
 
+import java.util.List;
+
 import core.Movie;
 
 public interface DAOMovie 
@@ -9,4 +11,6 @@ public interface DAOMovie
 	void 	remove	(Movie movie);
 	long 	count	();
 	boolean	exists	(String name);
+	List<Movie> loadLasts(int n);
+	List<Movie> loadAll();
 }

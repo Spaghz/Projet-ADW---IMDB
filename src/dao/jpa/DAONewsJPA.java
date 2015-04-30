@@ -61,4 +61,17 @@ public class DAONewsJPA implements DAONews {
 		return newsList;
 	}
 
+	@Override
+	public void saveToPublish(News news) {
+		if (news.getId()==-1)
+		{
+			DAOJPAPublished.getManager().persist(news);
+			DAOJPAPublished.commit();
+		}
+		else
+		{
+			throw new IllegalArgumentException("News already persistent");
+		}
+	}
+
 }

@@ -7,7 +7,7 @@
 	<managed-bean>
 		<managed-bean-name>beanNews</managed-bean-name>
 		<managed-bean-class>beans.BeanNews</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>beanSubscribe</managed-bean-name>
@@ -27,7 +27,17 @@
 	<managed-bean>
 		<managed-bean-name>beanCelebrities</managed-bean-name>
 		<managed-bean-class>beans.BeanCelebrities</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>beanCelebrityDetails</managed-bean-name>
+		<managed-bean-class>beans.BeanCelebrityDetails</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>beanMovies</managed-bean-name>
+		<managed-bean-class>beans.BeanMovies</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
 </faces-config>

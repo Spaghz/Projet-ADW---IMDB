@@ -1,20 +1,48 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core">
 
-<ui:composition template="">
-	<ui:define name="header">
-	    Add your header here or delete to use the default
-	</ui:define>
-	<ui:define name="content">
-	    Add your content here or delete to use the default
-	</ui:define>
-	<ui:define name="footer">
-	    Add your footer here or delete to use the default
-	</ui:define>
+<ui:composition>
+	<div class="container theme-showcase" role="main">
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+			<h1>Our movies lol</h1>
+			<p>Lots of things to see.</p>
+		</div>
+
+
+		<!-- Example row of columns -->
+		<div class="row">
+			<div class="col-md-12">
+				<ui:repeat var="currentMovie" value="#{beanMovies.listOfMovies}">
+					<div id="newsDiv">
+						<h2>
+							<h:form>
+								<h:link value="#{currentMovie.title}" outcome="movieDetails.xhtml">
+									<f:param name="id" value="#{currentMovie.id}"></f:param>
+								</h:link>
+							</h:form>
+						</h2>
+						<p class="lead">
+							released on <h:outputText value="#{currentMovie.releaseDate}"></h:outputText>
+						</p>
+						<hr />
+							Popularity : <h:outputText value="#{currentMovie.rank}"></h:outputText>
+						<hr />
+						<p>
+							<h:outputText value="#{currentMovie.biography}"></h:outputText>
+						</p>
+						<hr />
+					</div>
+				</ui:repeat>
+			</div>
+
+		</div>
+
+		<hr />
+	</div>
+	<!-- /container -->
 </ui:composition>
 </html>
+

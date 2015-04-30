@@ -14,33 +14,28 @@
 
 		<!-- Example row of columns -->
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-md-12">
 				<ui:repeat var="currentCelebrity" value="#{beanCelebrities.celebritiesToDisplay}">
 					<div id="newsDiv">
 						<h2>
-							<a href="#"><h:outputText value="#{currentNews.title}"></h:outputText></a>
+							<h:form>
+								<h:link value="#{currentCelebrity.firstName} #{currentCelebrity.lastName}" outcome="celebrityDetails.xhtml">
+									<f:param name="id" value="#{currentCelebrity.id}"></f:param>
+								</h:link>
+							</h:form>
 						</h2>
 						<p class="lead">
-							by <a href="index.php"><h:outputText
-									value="#{currentNews.author.nickName}"></h:outputText></a>
-						</p>
-						<p>
-							<span class="glyphicon glyphicon-time"></span> Posted on
-							<h:outputText value="#{currentNews.date}"></h:outputText>
+							born on <h:outputText value="#{currentCelebrity.birthDate}"></h:outputText>
 						</p>
 						<hr />
-						<img class="img-responsive" src="http://placehold.it/900x300"
-							alt="" />
+							Popularity : <h:outputText value="#{currentCelebrity.rank}"></h:outputText>
 						<hr />
 						<p>
-							<h:outputText value="#{currentNews.content}"></h:outputText>
+							<h:outputText value="#{currentCelebrity.biography}"></h:outputText>
 						</p>
-
-
 						<hr />
 					</div>
 				</ui:repeat>
-
 			</div>
 
 		</div>

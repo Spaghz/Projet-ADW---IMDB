@@ -14,6 +14,7 @@ import dao.jpa.DAOCelebrityJPA;
 import dao.jpa.DAONewsJPA;
 import dao.jpa.DAOUserJPA;
 import dao.jpa.managers.DAOJPAPublished;
+import dao.jpa.managers.DAOJPAUnpublished;
 import de.svenjacobs.loremipsum.LoremIpsum;
 
 public class SeedDB {
@@ -43,6 +44,7 @@ public class SeedDB {
 	public void seedDB()
 	{
 		DAOJPAPublished.viderBase();
+		DAOJPAUnpublished.viderBase();
 		seedUsers();
 		seedNews();
 		seedCelebrities();
@@ -59,7 +61,7 @@ public class SeedDB {
 	{
 		for (int i = 1 ; i <= 5 ; i++)
 		{
-			daoNews.save(new News(adminUser1,"title"+i,"content"+i,"",new Date()));
+			daoNews.saveToPublish(new News(adminUser1,"title"+i,"content"+i,"",new Date()));
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
@@ -73,11 +75,19 @@ public class SeedDB {
 	public void seedCelebrities()
 	{
 		Celebrity 	c1 = new Celebrity("Clint","Eastwood",new LoremIpsum().getWords(50),new Date(1930,5,31),""),
-					c2 = new Celebrity("Christoph","Waltz",new LoremIpsum().getWords(50),new Date(1956,10,4),"");
+					c2 = new Celebrity("Christoph","Waltz",new LoremIpsum().getWords(50),new Date(1956,10,4),""),
+					c3 = new Celebrity("Robert","Downey Jr.",new LoremIpsum().getWords(50),new Date(1965,4,4),""),
+					c4 = new Celebrity("Scarlett","Johanson",new LoremIpsum().getWords(50),new Date(1984,11,22),""),
+					c5 = new Celebrity("Ethan","Hawke",new LoremIpsum().getWords(50),new Date(1970,11,6),""),
+					c6 = new Celebrity("Uma","Thurman",new LoremIpsum().getWords(50),new Date(1970,4,29),"");
 		
 		try {
 			daoCelebrity.saveToPublish(c1);
 			daoCelebrity.saveToPublish(c2);
+			daoCelebrity.saveToPublish(c3);
+			daoCelebrity.saveToPublish(c4);
+			daoCelebrity.saveToPublish(c5);
+			daoCelebrity.saveToPublish(c6);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

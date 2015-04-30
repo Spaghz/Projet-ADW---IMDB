@@ -28,6 +28,9 @@ public class Movie {
 	@Column(name="cost")
 	private double	cost;
 	
+	@Column(name="synopsis")
+	private String synopsis;
+	
 	/*
 	private ArrayList<User> directors;
 	private ArrayList<User>	actors;
@@ -44,6 +47,14 @@ public class Movie {
 		this.title = title;
 		this.releaseDate = releaseDate;
 		this.cost = cost;
+	}
+	
+	public Movie(String title, Date releaseDate,double cost,String synopsis)
+	{
+		this.title = title;
+		this.releaseDate = releaseDate;
+		this.cost = cost;
+		this.synopsis = synopsis;
 	}
 	
 	public double getCost() {
@@ -76,5 +87,13 @@ public class Movie {
 
 	public void setReleaseDate(Date releaseDate) {
 		this.releaseDate = releaseDate;
+	}
+
+	public String getSynopsis() {
+		return synopsis;
+	}
+
+	public void setSynopsis(String synopsis) {
+		this.synopsis = synopsis;
 	}	
 }
