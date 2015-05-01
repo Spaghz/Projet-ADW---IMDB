@@ -75,4 +75,27 @@ public class DAOCelebrityJPA extends DAOJPAUnpublished implements DAOCelebrity {
 		return celebritiesList;
 	}
 
+	@Override
+	public ArrayList<Celebrity> loadAllNotPublished() {
+		long numOfCelebrities = this.countUnpublished();
+		
+		ArrayList<Celebrity> celebrityList = new ArrayList<Celebrity>((int)numOfCelebrities);
+		
+		for(int i = 1; i <= numOfCelebrities ; i++ )
+			celebrityList.add(getNotPublished(i));
+		
+		return celebrityList;
+	}
+
+	public Celebrity getNotPublished(int code) {
+		return code>=0?DAOJPAUnpublished.getManager().find(Celebrity.class,code):null;
+	}
+
+	@Override
+	public long countUnpublished() {
+		return ((Long) DAOJPAUnpublished.getManager()
+				.createNativeQuery("SELECT COUNT(*) FROM celebrity")
+				.getSingleResult()).longValue();
+	}
+
 }

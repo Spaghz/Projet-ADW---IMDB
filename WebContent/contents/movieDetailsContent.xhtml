@@ -20,6 +20,17 @@
 						<h:outputText value="#{beanMovieDetails.movie.releaseDate}"></h:outputText>
 					</p>
 					<hr />
+						<h:panelGroup rendered="#{not empty beanMovieDetails.movie.actors}">
+							Produced by 
+							<ul>
+							<ui:repeat var="producer" value="#{beanMovieDetails.movie.actors}">
+								<li>
+									<h:outputText value="#{producer.firstName} #{producer.lastName}"></h:outputText>
+								</li>
+							</ui:repeat>
+							</ul>
+						</h:panelGroup>
+					<hr/>
 					Popularity :
 					<h:outputText value="#{beanMovieDetails.movie.rank}"></h:outputText>
 					<hr />

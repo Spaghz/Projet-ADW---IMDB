@@ -22,7 +22,7 @@
 	<managed-bean>
 		<managed-bean-name>beanAddMovie</managed-bean-name>
 		<managed-bean-class>beans.BeanAddMovie</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<managed-bean>
 		<managed-bean-name>beanCelebrities</managed-bean-name>
@@ -42,6 +42,11 @@
 	<managed-bean>
 		<managed-bean-name>beanMovieDetails</managed-bean-name>
 		<managed-bean-class>beans.BeanMovieDetails</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>beanAdminChanges</managed-bean-name>
+		<managed-bean-class>beans.BeanAdminChanges</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
