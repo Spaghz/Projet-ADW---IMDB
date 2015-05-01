@@ -3,8 +3,10 @@ package dao.jpa;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.Celebrity;
 import core.Movie;
 import core.News;
+import dao.DAOCelebrity;
 import dao.DAOMovie;
 import dao.jpa.managers.DAOJPAPublished;
 import dao.jpa.managers.DAOJPAUnpublished;
@@ -12,6 +14,7 @@ import dao.jpa.managers.DAOJPAUnpublished;
 public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 	
 	static private DAOMovieJPA instance = null;
+	private DAOCelebrity daoCelebrity = new DAOCelebrityJPA();
 
 	static public DAOMovieJPA getInstance() {
 		if (instance == null)
@@ -23,14 +26,37 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 	@Override
 	public Movie get(int code) 
 	{
-		return code>=0?DAOJPAPublished.getManager().find(Movie.class,code):null;
+		Movie m = code>=0?DAOJPAPublished.getManager().find(Movie.class,code):null;
+		return m;
 	}
 
 	@Override
-	public void save(Movie movie)
+	public void save(Movie movie) throws Exception
 	{
 		if (movie.getId() == -1)
 		{
+			if ((movie.getDirector()!=null)&&(movie.getDirector().getId()==-1))
+			{
+				daoCelebrity.save(movie.getDirector());
+			}
+			
+			if(movie.getActors()!=null)
+			{
+				for(Celebrity c : movie.getActors())
+				{
+					if (c.getId()==-1)
+						daoCelebrity.save(c);
+				}
+			}
+			
+			if(movie.getProducers()!=null)
+			{
+				for(Celebrity c : movie.getProducers())
+				{
+					if (c.getId()==-1)
+						daoCelebrity.save(c);
+				}
+			}
 			DAOJPAUnpublished.getManager().persist(movie);
 			DAOJPAUnpublished.commit();
 		}
@@ -88,5 +114,36 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 			movieList.add(get(i));
 		
 		return movieList;
+	}
+
+	@Override
+	public void saveToPublish(Movie movie) throws Exception {
+		if (movie.getId() == -1)
+		{
+			DAOJPAPublished.getManager().persist(movie);
+			DAOJPAPublished.commit();
+		}
+		else
+		{
+			throw new IllegalArgumentException("This movie is already saved in the database");
+		}
+	}
+
+	@Override
+	public Celebrity getDirector(int code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Celebrity> getActors(int code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Celebrity> getProducers(int code) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -39,5 +39,10 @@
 		<managed-bean-class>beans.BeanMovies</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>beanMovieDetails</managed-bean-name>
+		<managed-bean-class>beans.BeanMovieDetails</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 
 </faces-config>

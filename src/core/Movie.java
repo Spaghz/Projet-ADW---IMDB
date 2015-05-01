@@ -1,14 +1,22 @@
 package core;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "movies")
@@ -31,12 +39,32 @@ public class Movie {
 	@Column(name="synopsis")
 	private String synopsis;
 	
-	/*
-	private ArrayList<User> directors;
-	private ArrayList<User>	actors;
-	private ArrayList<User>	productors;
-	private String			poster;	
-	*/
+	@Column(name="posterURI")
+	private String posterURI="";
+	
+	@Column(name="rank")
+	private int rank;
+	
+
+	@OneToOne 		
+	@JoinColumn(name="idDirector") 				
+	private Celebrity director=null;
+
+	@ManyToMany
+	@JoinTable(name = "play",
+		joinColumns = { 
+			@JoinColumn(table = "movies", name = "idMovie", referencedColumnName = "id") },
+		inverseJoinColumns = { 
+			@JoinColumn(table = "celebrity", name = "idCelebrity", referencedColumnName = "id") })
+	private List<Celebrity> actors = new ArrayList<Celebrity>();
+
+	@ManyToMany
+	@JoinTable(name = "produce",
+		joinColumns = { 
+			@JoinColumn(table = "movies", name = "idMovie", referencedColumnName = "id") },
+		inverseJoinColumns = { 
+			@JoinColumn(table = "celebrity", name = "idCelebrity", referencedColumnName = "id") })
+	private List<Celebrity> producers=new ArrayList<Celebrity>();
 
 	public Movie()
 	{
@@ -95,5 +123,55 @@ public class Movie {
 
 	public void setSynopsis(String synopsis) {
 		this.synopsis = synopsis;
+	}
+
+	public String getPosterURI() {
+		return posterURI;
+	}
+
+	public void setPosterURI(String posterURI) {
+		this.posterURI = posterURI;
+	}
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	public Celebrity getDirector() {
+		return director;
+	}
+
+	public void setDirector(Celebrity director) {
+		this.director = director;
+	}
+
+	public List<Celebrity> getActors() {
+		return actors;
+	}
+
+	public void setActors(List<Celebrity> actors) {
+		this.actors = actors;
+	}
+
+	public List<Celebrity> getProducers() {
+		return producers;
+	}
+
+	public void setProducers(List<Celebrity> producers) {
+		this.producers = producers;
 	}	
+	
+	public void addProducer(Celebrity c)
+	{
+		producers.add(c);
+	}
+	
+	public void addActor(Celebrity c)
+	{
+		actors.add(c);
+	}
 }

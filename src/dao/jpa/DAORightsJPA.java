@@ -6,6 +6,7 @@ import core.Rights;
 import core.User;
 import dao.DAORights;
 import dao.jpa.managers.DAOJPAPublished;
+import dao.jpa.managers.DAOJPAUnpublished;
 
 public class DAORightsJPA implements DAORights {
 
@@ -29,8 +30,8 @@ public class DAORightsJPA implements DAORights {
 
 	@Override
 	public void save(Rights rights) throws Exception {
-		// TODO Auto-generated method stub
-
+		DAOJPAPublished.getManager().persist(rights);
+		DAOJPAPublished.commit();
 	}
 
 	@Override

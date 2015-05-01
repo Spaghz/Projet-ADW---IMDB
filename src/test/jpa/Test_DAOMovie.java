@@ -17,7 +17,12 @@ public class Test_DAOMovie {
 	
 	@org.junit.Test
 	public void test() {
-		testMovie();
+		try {
+			testMovie();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Before
@@ -27,7 +32,7 @@ public class Test_DAOMovie {
 		DAOJPAPublished.viderBase();
 	}
 	
-	public void testMovie()
+	public void testMovie() throws Exception
 	{
 		// Rien dans la table
 		assertEquals(0,dao.count());

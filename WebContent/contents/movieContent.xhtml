@@ -17,12 +17,10 @@
 			<div class="col-md-12">
 				<ui:repeat var="currentMovie" value="#{beanMovies.listOfMovies}">
 					<div id="newsDiv">
-						<h2>
-							<h:form>
+						<h2>	
 								<h:link value="#{currentMovie.title}" outcome="movieDetails.xhtml">
 									<f:param name="id" value="#{currentMovie.id}"></f:param>
 								</h:link>
-							</h:form>
 						</h2>
 						<p class="lead">
 							released on <h:outputText value="#{currentMovie.releaseDate}"></h:outputText>
@@ -31,7 +29,7 @@
 							Popularity : <h:outputText value="#{currentMovie.rank}"></h:outputText>
 						<hr />
 						<p>
-							<h:outputText value="#{currentMovie.biography}"></h:outputText>
+							<h:outputText value="#{currentMovie.synopsis}"></h:outputText>
 						</p>
 						<hr />
 					</div>

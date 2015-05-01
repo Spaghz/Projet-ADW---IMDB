@@ -41,6 +41,6 @@ public class BeanCelebrityDetails {
 	public String loadCelebrity()
 	{
 		setCelebrity(dao.get(getCelebrityCode(FacesContext.getCurrentInstance())));
-		return "testttttttttttt.xhtml";
+		return "";
 	}
 }
