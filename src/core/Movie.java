@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,10 +18,19 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.Constraint;
+
+import org.eclipse.persistence.annotations.CascadeOnDelete;
+
+import dao.DAOCelebrity;
+import dao.jpa.DAOCelebrityJPA;
 
 @Entity
 @Table(name = "movies")
 public class Movie {
+	@Transient
+	DAOCelebrity daoCelebrity = new DAOCelebrityJPA();
+	
 	@Column(name = "id")
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
@@ -45,9 +55,8 @@ public class Movie {
 	@Column(name="rank")
 	private int rank;
 	
-
-	@OneToOne 		
-	@JoinColumn(name="idDirector") 				
+	@OneToOne(cascade=CascadeType.ALL)	
+	@JoinColumn(name="idDirector") 	
 	private Celebrity director=null;
 
 	@ManyToMany
@@ -83,6 +92,20 @@ public class Movie {
 		this.releaseDate = releaseDate;
 		this.cost = cost;
 		this.synopsis = synopsis;
+	}
+	
+	public Movie(int id,String title, Date releaseDate,double cost,String posterURI,int idDirector,String synopsis,int rank)
+	{
+		this.id = id;
+		this.title = title;
+		this.releaseDate = releaseDate;
+		this.cost = cost;
+		this.posterURI = posterURI;
+		this.director = daoCelebrity.getNotPublished(idDirector);
+		if (this.director==null)
+			this.director = daoCelebrity.get(idDirector);
+		this.synopsis = synopsis;		
+		this.rank = rank;
 	}
 	
 	public double getCost() {
@@ -173,5 +196,10 @@ public class Movie {
 	public void addActor(Celebrity c)
 	{
 		actors.add(c);
+	}
+	
+	public String getTrimmedSynopsis()
+	{
+		return synopsis.substring(0,50).concat("...");
 	}
 }

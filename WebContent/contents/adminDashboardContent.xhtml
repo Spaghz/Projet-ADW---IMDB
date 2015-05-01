@@ -4,7 +4,62 @@
 	xmlns:f="http://java.sun.com/jsf/core">
 
 <ui:composition>
-	<h:outputText value="test admin"></h:outputText>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h3>Unpublished movies <span class="label label-default">New</span></h3>	
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">	
+			<h:form>	
+				<h:dataTable class="table-hover table table-condensed" value="#{beanAdminChanges.movies}" var="currentMovie">
+	    			<h:column>
+	    				<!-- column header -->
+	    				<f:facet name="header">Id</f:facet>
+	    				<!-- row record -->
+	    				<h:outputText value="#{currentMovie.id}"></h:outputText>
+	    			</h:column>
+	    			<h:column>
+	    				<!-- column header -->
+	    				<f:facet name="header">Title</f:facet>
+	    				<!-- row record -->
+	    				<h:outputText value="#{currentMovie.title}"></h:outputText>
+	    			</h:column>
+	    			<h:column>
+	    				<!-- column header -->
+	    				<f:facet name="header">Date of release</f:facet>
+	    				<!-- row record -->
+	    				<h:outputText value="#{currentMovie.releaseDate}"></h:outputText>
+	    			</h:column>
+	    			<h:column>
+	    				<!-- column header -->
+	    				<f:facet name="header">Director</f:facet>
+	    				<!-- row record -->
+	    				<h:outputText value="#{currentMovie.director.firstName} #{currentMovie.director.lastName}"></h:outputText>
+	    			</h:column>
+	    			<h:column>
+	    				<!-- column header -->
+	    				<f:facet name="header">Synopsis</f:facet>
+	    				<!-- row record -->
+	    				<h:outputText value="#{currentMovie.trimmedSynopsis}"></h:outputText>
+	    			</h:column>
+	      			<h:column>
+	    				<!-- column header -->
+	    				<f:facet name="header">Publish</f:facet>
+	    				<!-- row record -->
+	    				<h:commandButton class="btn btn-primary" value="Publish" action="#{beanAdminChanges.publish}">
+	    					<f:param name="idToPublish" value="#{currentMovie.id}"></f:param>
+	    				</h:commandButton>
+	    			</h:column>
+				</h:dataTable>
+			</h:form>			
+			</div>
+		</div>		
+		
+		
+	</div>
 </ui:composition>
 </html>
 

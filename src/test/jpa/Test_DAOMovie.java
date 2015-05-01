@@ -3,6 +3,9 @@ package test.jpa;
 import static org.junit.Assert.assertEquals;
 
 import java.sql.Date;
+import java.util.List;
+
+import javax.persistence.TypedQuery;
 
 import org.junit.Before;
 
@@ -10,6 +13,7 @@ import core.Movie;
 import dao.DAOMovie;
 import dao.jpa.DAOMovieJPA;
 import dao.jpa.managers.DAOJPAPublished;
+import dao.jpa.managers.DAOJPAUnpublished;
 
 public class Test_DAOMovie {
 	private DAOMovie 	dao;
@@ -32,15 +36,19 @@ public class Test_DAOMovie {
 		DAOJPAPublished.viderBase();
 	}
 	
+	@SuppressWarnings("unused")
 	public void testMovie() throws Exception
 	{
 		// Rien dans la table
 		assertEquals(0,dao.count());
 		
 		// Upload d'un objet
-		DAOMovieJPA.getInstance().save(movie1);
+		//DAOMovieJPA.getInstance().save(movie1);
 		
 		// Un objet
-		assertEquals(1,dao.count());
+		//assertEquals(1,dao.count());
+		
+		// Get all objects
+
 	}
 }

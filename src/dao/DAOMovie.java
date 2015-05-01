@@ -13,6 +13,8 @@ public interface DAOMovie {
 	void save(Movie movie) throws Exception;
 
 	void saveToPublish(Movie movie) throws Exception;
+	
+	//void saveOrUpdateToPublish(Movie movie) throws Exception;
 
 	void remove(Movie movie);
 

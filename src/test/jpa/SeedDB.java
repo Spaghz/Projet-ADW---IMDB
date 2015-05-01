@@ -1,6 +1,8 @@
 package test.jpa;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 
@@ -51,6 +53,7 @@ public class SeedDB {
 	@org.junit.Test
 	public void test() 
 	{
+		//List<Movie> movies = DAOJPAUnpublished.getManager().createQuery("SELECT m FROM Movie m",Movie.class).getResultList();
 		seedDB();
 	}
 	

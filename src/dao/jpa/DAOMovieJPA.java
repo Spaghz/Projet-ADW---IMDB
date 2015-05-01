@@ -1,7 +1,10 @@
 package dao.jpa;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.persistence.TypedQuery;
 
 import core.Celebrity;
 import core.Movie;
@@ -107,13 +110,8 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 
 	@Override
 	public void saveToPublish(Movie movie) throws Exception {
-		if (movie.getId() == -1) {
 			DAOJPAPublished.getManager().persist(movie);
 			DAOJPAPublished.commit();
-		} else {
-			throw new IllegalArgumentException(
-					"This movie is already saved in the database");
-		}
 	}
 
 	@Override
@@ -136,14 +134,7 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 
 	@Override
 	public List<Movie> loadAllNotPublished() {
-		long numOfMovies = this.countUnpublished();
-
-		ArrayList<Movie> movieList = new ArrayList<Movie>((int) numOfMovies);
-
-		for (int i = 1; i <= numOfMovies; i++)
-			movieList.add(getNotPublished(i));
-
-		return movieList;
+		return DAOJPAUnpublished.getManager().createQuery("SELECT m FROM Movie m",Movie.class).getResultList();
 	}
 
 	public Movie getNotPublished(int i) {
