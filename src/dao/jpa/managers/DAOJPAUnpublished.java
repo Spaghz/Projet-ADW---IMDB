@@ -6,6 +6,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public class DAOJPAUnpublished extends DAOJPAManager{
+	/*
 	private static EntityManagerFactory emf = null;
 	private static EntityManager em = null;
 	private static EntityTransaction tx = null;
@@ -51,4 +52,5 @@ public class DAOJPAUnpublished extends DAOJPAManager{
 		getManager().createQuery("DELETE FROM Celebrity").executeUpdate();
 		getManager().createNativeQuery("ALTER TABLE celebrity AUTO_INCREMENT = 1").executeUpdate();
 		}
+		*/
 }

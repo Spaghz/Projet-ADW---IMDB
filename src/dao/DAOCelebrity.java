@@ -10,10 +10,12 @@ public interface DAOCelebrity {
 	Celebrity get(int code);
 
 	Celebrity getNotPublished(int code);
+	
+	Boolean isDisplayable(Celebrity celebrity);
 
 	void save(Celebrity celebrity) throws Exception;
 
-	void remove(Celebrity celebrity);
+	void removeFromUnpublished(Celebrity celebrity);
 
 	long count();
 
@@ -25,5 +27,7 @@ public interface DAOCelebrity {
 
 	void saveToPublish(Celebrity c1) throws Exception;
 
-	ArrayList<Celebrity> loadAllNotPublished();
+	List<Celebrity> loadAll();
+	
+	List<Celebrity> search(String searchString);
 }

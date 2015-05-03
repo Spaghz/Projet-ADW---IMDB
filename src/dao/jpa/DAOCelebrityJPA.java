@@ -1,17 +1,24 @@
 package dao.jpa;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import core.Celebrity;
+import core.CelebrityUpdate;
+import core.Movie;
 import dao.DAOCelebrity;
+import dao.DAOCelebrityUpdate;
 import dao.jpa.managers.DAOJPAPublished;
 import dao.jpa.managers.DAOJPAUnpublished;
 
 public class DAOCelebrityJPA extends DAOJPAUnpublished implements DAOCelebrity {
-
+	
+	private DAOCelebrityUpdate daoCelebrityUpdate = new DAOCelebrityUpdateJPA();
+	
 	@Override
 	public void save(Celebrity celebrity) throws Exception {
+		/*
 		if (celebrity.getId() == -1)
 		{
 			DAOJPAUnpublished.getManager().persist(celebrity);
@@ -21,27 +28,28 @@ public class DAOCelebrityJPA extends DAOJPAUnpublished implements DAOCelebrity {
 		{
 			throw new IllegalArgumentException("This celebrity is already saved in the database");
 		}
+		*/
+		DAOJPAPublished.getManager().persist(celebrity);
+		DAOJPAPublished.getManager().persist(new CelebrityUpdate(celebrity));
+		DAOJPAPublished.commit();
 	}
 	
 	public void saveToPublish(Celebrity celebrity) throws Exception {
-		if (celebrity.getId() == -1)
-		{
-			DAOJPAPublished.getManager().persist(celebrity);
-			DAOJPAPublished.commit();
-		}
-		else
-		{
-			throw new IllegalArgumentException("This celebrity is already saved in the database");
-		}
+		DAOJPAPublished.getManager().persist(celebrity);
+		DAOJPAPublished.commit();
 	}
 
 	@Override
-	public void remove(Celebrity Celebrity) {
-		// TODO Auto-generated method stub
-		
-	}
+	/*
+	public void removeFromUnpublished(Celebrity Celebrity) {
+		if (Celebrity.getId() >= 0) {
+			DAOJPAUnpublished.getManager().remove(Celebrity);
+			DAOJPAUnpublished.commit();
+			
+		} else
+			throw new IllegalArgumentException("Article pas persistant");
+	}*/
 
-	@Override
 	public long count() {
 		return ((Long) DAOJPAPublished.getManager()
 				.createNativeQuery("SELECT COUNT(*) FROM celebrity")
@@ -75,8 +83,10 @@ public class DAOCelebrityJPA extends DAOJPAUnpublished implements DAOCelebrity {
 		return celebritiesList;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public ArrayList<Celebrity> loadAllNotPublished() {
+	public List<Celebrity> loadAll() {
+		/*
 		long numOfCelebrities = this.countUnpublished();
 		
 		ArrayList<Celebrity> celebrityList = new ArrayList<Celebrity>((int)numOfCelebrities);
@@ -85,9 +95,14 @@ public class DAOCelebrityJPA extends DAOJPAUnpublished implements DAOCelebrity {
 			celebrityList.add(getNotPublished(i));
 		
 		return celebrityList;
+		*/
+		// Récupération des ID non publiés :
+		return DAOJPAPublished.getManager().createNativeQuery("SELECT * FROM `celebrity`",Celebrity.class).getResultList();
 	}
 
-	public Celebrity getNotPublished(int code) {
+	/*
+	public Celebrity getNotPublished(int code) 
+	{
 		return code>=0?DAOJPAUnpublished.getManager().find(Celebrity.class,code):null;
 	}
 
@@ -96,6 +111,45 @@ public class DAOCelebrityJPA extends DAOJPAUnpublished implements DAOCelebrity {
 		return ((Long) DAOJPAUnpublished.getManager()
 				.createNativeQuery("SELECT COUNT(*) FROM celebrity")
 				.getSingleResult()).longValue();
+	}*/
+
+	@Override
+	public Boolean isDisplayable(Celebrity celebrity) {
+		if (celebrity.getId()>=0)
+		{
+			//CelebrityUpdate cU = DAOJPAPublished.getManager().createNamedQuery("SELECT cu FROM CelebrityUpdate WHERE cu.celebrityId = :celebrityId",CelebrityUpdate.class).setParameter("celebrityId",celebrity.getId()).getSingleResult();
+			return (daoCelebrityUpdate.count(celebrity.getId())==0);
+		}
+		return false;
+	}
+
+	@Override
+	public Celebrity getNotPublished(int code) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void removeFromUnpublished(Celebrity celebrity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public long countUnpublished() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<Celebrity> search(String searchString) {
+		return DAOJPAPublished.getManager().createQuery(""
+				+ "SELECT c FROM Celebrity c "
+				+ "WHERE c.firstName LIKE :searchString "
+				+ "OR c.lastName LIKE :searchString "
+				+ "OR c.biography LIKE :searchString ",Celebrity.class)
+				.setParameter("searchString","%"+searchString+"%")
+				.getResultList();
 	}
 
 }

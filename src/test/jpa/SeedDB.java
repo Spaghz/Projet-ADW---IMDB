@@ -53,7 +53,6 @@ public class SeedDB {
 	@org.junit.Test
 	public void test() 
 	{
-		//List<Movie> movies = DAOJPAUnpublished.getManager().createQuery("SELECT m FROM Movie m",Movie.class).getResultList();
 		seedDB();
 	}
 	
@@ -72,10 +71,11 @@ public class SeedDB {
 	public void seedDB()
 	{
 		DAOJPAPublished.viderBase();
-		DAOJPAUnpublished.viderBase();
+		//DAOJPAUnpublished.viderBase();
+		init();
 		seedUsers();
-		seedNews();
 		seedCelebrities();
+		seedNews();
 		seedMovies();
 	}
 	

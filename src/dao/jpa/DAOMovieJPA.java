@@ -1,16 +1,17 @@
 package dao.jpa;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.TypedQuery;
+import javax.persistence.Query;
 
 import core.Celebrity;
+import core.CelebrityUpdate;
 import core.Movie;
-import core.News;
+import core.MovieUpdate;
 import dao.DAOCelebrity;
 import dao.DAOMovie;
+import dao.DAOMovieUpdate;
 import dao.jpa.managers.DAOJPAPublished;
 import dao.jpa.managers.DAOJPAUnpublished;
 
@@ -18,6 +19,7 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 
 	static private DAOMovieJPA instance = null;
 	private DAOCelebrity daoCelebrity = new DAOCelebrityJPA();
+	private DAOMovieUpdate daoMovieUpdate = new DAOmovieUpdateJPA();
 
 	static public DAOMovieJPA getInstance() {
 		if (instance == null)
@@ -35,6 +37,7 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 
 	@Override
 	public void save(Movie movie) throws Exception {
+
 		if (movie.getId() == -1) {
 			if ((movie.getDirector() != null)
 					&& (movie.getDirector().getId() == -1)) {
@@ -54,21 +57,33 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 						daoCelebrity.save(c);
 				}
 			}
-			DAOJPAUnpublished.getManager().persist(movie);
-			DAOJPAUnpublished.commit();
+			DAOJPAPublished.getManager().persist(movie);
+			DAOJPAPublished.commit();
+			
+			daoMovieUpdate.save(new MovieUpdate(movie));
+			
 		} else {
 			throw new IllegalArgumentException(
 					"This movie is already saved in the database");
 		}
+
+		/*
+		 * DAOJPAPublished.getManager().persist(movie);
+		 * DAOJPAPublished.getManager().persist(new MovieUpdate(movie));
+		 * DAOJPAPublished.commit();
+		 */
 	}
 
 	@Override
-	public void remove(Movie movie) {
-		if (movie.getId() != -1) {
-			DAOJPAPublished.getManager().remove(movie);
-			DAOJPAPublished.commit();
-			movie.setId(-1);
-		}
+	public void removeFromUnpublished(Movie movie) {
+		/*
+		if (movie.getId() >= 0) {
+			DAOJPAUnpublished.getManager().remove(movie);
+			DAOJPAUnpublished.commit();
+
+		} else
+			throw new IllegalArgumentException("Article pas persistant");
+			*/
 	}
 
 	@Override
@@ -96,8 +111,10 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 		return movieList;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Movie> loadAll() {
+		/*
 		long numOfMovies = this.count();
 
 		ArrayList<Movie> movieList = new ArrayList<Movie>((int) numOfMovies);
@@ -106,12 +123,14 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 			movieList.add(get(i));
 
 		return movieList;
+		*/
+		return DAOJPAPublished.getManager().createNativeQuery("SELECT * FROM `movies` WHERE `id` NOT IN (SELECT `movieId` FROM `movieupdates`)",Movie.class).getResultList();
 	}
 
 	@Override
 	public void saveToPublish(Movie movie) throws Exception {
-			DAOJPAPublished.getManager().persist(movie);
-			DAOJPAPublished.commit();
+		DAOJPAPublished.getManager().persist(movie);
+		DAOJPAPublished.commit();
 	}
 
 	@Override
@@ -134,19 +153,129 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 
 	@Override
 	public List<Movie> loadAllNotPublished() {
-		return DAOJPAUnpublished.getManager().createQuery("SELECT m FROM Movie m",Movie.class).getResultList();
+		/*
+		 * return DAOJPAUnpublished.getManager()
+		 * .createQuery("SELECT m FROM Movie m", Movie.class) .getResultList();
+		 */
+		// Récupération des ID non publiés :
+		ArrayList<Movie> res = new ArrayList<Movie>();
+		List<MovieUpdate> list = daoMovieUpdate.loadAll();
+		for (MovieUpdate movieUpdate : list) {
+			res.add(this.get(movieUpdate.getMovieBeingUpdated().getId()));
+		}
+		return res;
 	}
 
 	public Movie getNotPublished(int i) {
+		/*
 		Movie m = i >= 0 ? DAOJPAUnpublished.getManager().find(Movie.class, i)
 				: null;
 		return m;
+		*/
+		return null;
 	}
 
 	@Override
 	public long countUnpublished() {
+		/*
 		return ((Long) DAOJPAUnpublished.getManager()
 				.createNativeQuery("SELECT COUNT(*) FROM movies")
 				.getSingleResult()).longValue();
+				*/
+		return 0;
+	}
+
+	@Override
+	public void publish(Movie movie) throws Exception {
+		/*
+		if (movie.getDirector() != null)
+			if (daoCelebrity.get(movie.getDirector().getId()) == null) {
+				// daoCelebrity.saveToPublish(movie.getDirector());
+			}
+
+		if (movie.getActors() != null)
+			for (Celebrity actor : movie.getActors())
+				if (daoCelebrity.get(actor.getId()) == null)
+					daoCelebrity.saveToPublish(actor);
+
+		if (movie.getProducers() != null)
+			for (Celebrity producer : movie.getProducers())
+				if (daoCelebrity.get(producer.getId()) == null)
+					daoCelebrity.saveToPublish(producer);
+
+		// Methode pour update
+		if (this.get(movie.getId()) != null) {
+			// update
+			this.updatePublish(movie);
+		} else {
+			// save
+			this.saveToPublish(movie);
+		}
+
+		this.removeFromUnpublished(movie);
+		*/
+		daoMovieUpdate.remove(movie);
+	}
+
+	@Override
+	public void updatePublish(Movie m) {
+		/*
+		Query query = DAOJPAPublished
+				.getManager()
+				.createQuery(
+						"UPDATE Movie AS m SET "
+								+ "m.title = :title, "
+								+ "m.releaseDate = :releaseDate, "
+								+ "m.cost = :cost, "
+								+ "m.posterURI = :posterURI, ".concat(m
+										.getDirector() != null ? "m.director = :idDirector, "
+										: "") + "m.synopsis = :synopsis, "
+								+ "m.rank = :rank " + "WHERE m.id = :id")
+				.setParameter("title", m.getTitle())
+				.setParameter("releaseDate", m.getReleaseDate())
+				.setParameter("cost", m.getCost())
+				.setParameter("posterURI", m.getPosterURI())
+				.setParameter("synopsis", m.getSynopsis())
+				.setParameter("rank", m.getRank())
+				.setParameter("id", m.getId());
+
+		if (m.getDirector() != null)
+			query.setParameter("idDirector", m.getDirector().getId());
+
+		int updatedOccurences = query.executeUpdate();
+		*/
+	}
+
+	@Override
+	public Boolean isDisplayable(Movie movie) {
+		if (movie.getId() >= 0) {
+			// CelebrityUpdate cU =
+			// DAOJPAPublished.getManager().createNamedQuery("SELECT cu FROM CelebrityUpdate WHERE cu.celebrityId = :celebrityId",CelebrityUpdate.class).setParameter("celebrityId",celebrity.getId()).getSingleResult();
+			return (daoMovieUpdate.exists(movie.getId()) == 0);
+		}
+		return false;
+	}
+
+	@Override
+	public List<Movie> search(String searchString) {
+		String[] searchStrings 	= searchString.split(" ");
+		String[] searchFields 	= new String[]{"m.title","m.synopsis"};
+		
+		
+		String query = "SELECT m FROM Movie m WHERE ";
+			for(String field : searchFields)
+				for(int i = 0;i<searchStrings.length;i++)
+					query+=field+" LIKE :searchString"+String.valueOf(i)+"\n OR ";
+		
+		query=query.substring(0,query.length()-3);
+		
+		//System.out.println(query);
+
+		Query searchQuery = DAOJPAPublished.getManager().createQuery(query,Movie.class);
+		
+		for(int i = 0;i<searchStrings.length;i++)
+			searchQuery=searchQuery.setParameter("searchString"+String.valueOf(i),"%"+searchStrings[i]+"%");
+		
+		return searchQuery.getResultList();
 	}
 }

@@ -47,6 +47,11 @@
 	<managed-bean>
 		<managed-bean-name>beanAdminChanges</managed-bean-name>
 		<managed-bean-class>beans.BeanAdminChanges</managed-bean-class>
+		<managed-bean-scope>view</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>beanSearch</managed-bean-name>
+		<managed-bean-class>beans.BeanSearch</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 

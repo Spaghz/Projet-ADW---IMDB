@@ -202,4 +202,15 @@ public class Movie {
 	{
 		return synopsis.substring(0,50).concat("...");
 	}
+
+	@Override
+	public String toString() {
+		return "Movie [id=" + id + ", title=" + title + ", releaseDate="
+				+ releaseDate + ", cost=" + cost + ", synopsis=" + synopsis
+				+ ", posterURI=" + posterURI + ", rank=" + rank + ", director="
+				+ director + ", actors=" + actors + ", producers=" + producers
+				+ "]";
+	}
+	
+
 }

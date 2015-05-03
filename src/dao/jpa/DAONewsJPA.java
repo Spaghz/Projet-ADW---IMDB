@@ -21,8 +21,8 @@ public class DAONewsJPA implements DAONews {
 	public void save(News news) {
 		if (news.getId()==-1)
 		{
-			DAOJPAUnpublished.getManager().persist(news);
-			DAOJPAUnpublished.commit();
+			DAOJPAPublished.getManager().persist(news);
+			DAOJPAPublished.commit();
 		}
 		else
 		{

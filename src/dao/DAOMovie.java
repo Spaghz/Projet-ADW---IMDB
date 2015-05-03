@@ -14,9 +14,9 @@ public interface DAOMovie {
 
 	void saveToPublish(Movie movie) throws Exception;
 	
-	//void saveOrUpdateToPublish(Movie movie) throws Exception;
+	void publish(Movie movie) throws Exception;
 
-	void remove(Movie movie);
+	void removeFromUnpublished(Movie movie);
 
 	long count();
 
@@ -29,10 +29,16 @@ public interface DAOMovie {
 	List<Movie> loadAll();
 
 	List<Movie> loadAllNotPublished();
+	
+	List<Movie> search(String searchString);
 
 	Celebrity getDirector(int code);
 
 	List<Celebrity> getActors(int code);
 
 	List<Celebrity> getProducers(int code);
+
+	void updatePublish(Movie m);
+	
+	Boolean isDisplayable(Movie movie);
 }
