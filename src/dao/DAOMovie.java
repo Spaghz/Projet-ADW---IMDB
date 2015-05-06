@@ -30,6 +30,8 @@ public interface DAOMovie {
 
 	List<Movie> loadAllNotPublished();
 	
+	List<Movie> loadAllPublished();
+	
 	List<Movie> search(String searchString);
 
 	Celebrity getDirector(int code);

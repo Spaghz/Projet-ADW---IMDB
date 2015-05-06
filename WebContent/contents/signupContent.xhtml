@@ -45,7 +45,7 @@
 							name="email" class="form-control input-md"
 							required="true" label="Email address">
 							<f:ajax event="blur" render="errorEmail" />
-							<f:validateRegex pattern="([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)"></f:validateRegex>
+							<!-- <f:validateRegex pattern="([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)"></f:validateRegex>-->
 						</h:inputText>
 					</div>
 					<div class="col-md-5">
@@ -65,7 +65,7 @@
 							id="password" name="password" type="text"
 							class="form-control input-md" required="true" label="Password">
 							<f:ajax event="blur" render="errorPassword" />
-							<f:validateRegex pattern="((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})"></f:validateRegex>
+							<!--  <f:validateRegex pattern="((?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{6,20})"></f:validateRegex>-->
 						</h:inputSecret>
 					</div>
 					<div class="col-md-5">

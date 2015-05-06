@@ -1,9 +1,12 @@
 package beans;
 
 import java.io.Serializable;
+import java.security.SecureRandom;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+
+import utils.StringUtil;
 import core.User;
 import dao.DAOUser;
 import dao.jpa.DAOUserJPA;
@@ -22,18 +25,7 @@ public class BeanSubscribe implements Serializable {
 	}
 	
 	public String subscribe()
-	{
-		if (daoUser.nicknameExists(user.getNickName()))
-		{
-			
-		}
-		
-		if (daoUser.emailExists(user.getEmail()))
-		{
-			
-		}
-		
-		
+	{	
 		daoUser.save(user);
 		FacesMessage subscriptionMessage = new FacesMessage("Subscription done!");
 		FacesContext.getCurrentInstance().addMessage(null, subscriptionMessage);

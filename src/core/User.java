@@ -71,6 +71,12 @@ public class User {
 	
 	public User()
 	{
+		// Salt & Password generation
+
+	}
+
+	public void setSalt(byte[] salt) {
+		this.salt = salt;
 	}
 
 	public User(String nickName,String password,String email,String firstName,String lastName,Date birthDate,String pictureURI,Boolean isAdmin,Boolean isPro)
@@ -91,11 +97,10 @@ public class User {
 		this.pictureURI = pictureURI;
 		this.setIsAdmin(isAdmin);
 		this.setIsPro(isPro);
+		this.password = password;
 		
 		// Salt & Password generation
-		this.salt = new byte[20];
-		new SecureRandom().nextBytes(this.salt);
-		this.password = StringUtil.getEncryptedPassword(this.salt,password);
+
 	}
 	
 	public int getId() {

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import core.Celebrity;
 import core.CelebrityUpdate;
 import core.Movie;
@@ -143,13 +145,25 @@ public class DAOCelebrityJPA extends DAOJPAUnpublished implements DAOCelebrity {
 
 	@Override
 	public List<Celebrity> search(String searchString) {
-		return DAOJPAPublished.getManager().createQuery(""
-				+ "SELECT c FROM Celebrity c "
-				+ "WHERE c.firstName LIKE :searchString "
-				+ "OR c.lastName LIKE :searchString "
-				+ "OR c.biography LIKE :searchString ",Celebrity.class)
-				.setParameter("searchString","%"+searchString+"%")
-				.getResultList();
+		String[] searchStrings 	= searchString.split(" ");
+		String[] searchFields 	= new String[]{"c.firstName","c.lastName"};
+		
+		
+		String query = "SELECT c FROM Celebrity c WHERE ";
+			for(String field : searchFields)
+				for(int i = 0;i<searchStrings.length;i++)
+					query+=field+" LIKE :searchString"+String.valueOf(i)+"\n OR ";
+		
+		query=query.substring(0,query.length()-3);
+		
+		//System.out.println(query);
+
+		Query searchQuery = DAOJPAPublished.getManager().createQuery(query,Celebrity.class);
+		
+		for(int i = 0;i<searchStrings.length;i++)
+			searchQuery=searchQuery.setParameter("searchString"+String.valueOf(i),"%"+searchStrings[i]+"%");
+		
+		return searchQuery.getResultList();
 	}
 
 }

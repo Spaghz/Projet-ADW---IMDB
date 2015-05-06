@@ -11,12 +11,89 @@
 			<p>Ole ole vamos.</p>
 		</div>
 
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<h3>Movies :</h3>
+				</div>
 
-		<!-- Example row of columns -->
-		<div class="row">
+				<div class="row">
+					<div class="col-md-6">
+						<h3>Celebrities :</h3>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<h:dataTable rendered="#{beanSearch.numOfMovies>0}"
+						class="table-hover table table-condensed"
+						value="#{beanSearch.movieResults}" var="currentMovie">
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header"></f:facet>
+							<!-- row record -->
+							<h:link class="label label-success" value="View page"
+								outcome="movieDetails.xhtml">
+								<f:param name="id" value="#{currentMovie.id}"></f:param>
+							</h:link>
+						</h:column>
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Title</f:facet>
+							<!-- row record -->
+							<h:outputText value="#{currentMovie.title}"></h:outputText>
+						</h:column>
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Date of release</f:facet>
+							<!-- row record -->
+							<h:outputText value="#{currentMovie.releaseDate}"></h:outputText>
+						</h:column>
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Director</f:facet>
+							<!-- row record -->
+							<h:outputText
+								value="#{currentMovie.director.firstName} #{currentMovie.director.lastName}"></h:outputText>
+						</h:column>
+					</h:dataTable>
+				</div>
+				<div class="col-md-6">
+					<h:dataTable rendered="#{beanSearch.numOfCelebs>0}"
+						class="table-hover table table-condensed"
+						value="#{beanSearch.celebrityResults}" var="currentCelebrity">
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header"></f:facet>
+							<!-- row record -->
+							<h:link class="label label-success" value="View page"
+								outcome="celebrityDetails.xhtml">
+								<f:param name="id" value="#{currentCelebrity.id}"></f:param>
+							</h:link>
+						</h:column>
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Name</f:facet>
+							<!-- row record -->
+							<h:link
+								value="#{currentCelebrity.firstName} #{currentCelebrity.lastName}"
+								outcome="celebrityDetails.xhtml">
+								<f:param name="id" value="#{currentCelebrity.id}"></f:param>
+							</h:link>
+						</h:column>
+						<h:column>
+							<!-- column header -->
+							<f:facet name="header">Birth date</f:facet>
+							<!-- row record -->
+							<h:outputText value="#{currentCelebrity.birthDate}"></h:outputText>
+						</h:column>
+
+					</h:dataTable>
+				</div>
+			</div>
+
 		</div>
-
-		<hr />
 	</div>
 	<!-- /container -->
 </ui:composition>

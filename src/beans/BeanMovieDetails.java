@@ -22,6 +22,7 @@ public class BeanMovieDetails {
 	private List<Integer> actorsId;
 	private List<Integer> producersId;
 	private FacesContext fc = FacesContext.getCurrentInstance();
+	private Boolean isDisplayable;
 	
 	public BeanMovieDetails()
 	{
@@ -33,14 +34,19 @@ public class BeanMovieDetails {
 		{
 			setMovie(dao.get(getMovieCode(FacesContext.getCurrentInstance())));
 			
-			celebrities = daoCelebrity.loadLasts((int)daoCelebrity.count());
-			actorsId = new ArrayList<Integer>();
-			for(Celebrity c : movie.getActors())
-				actorsId.add(c.getId());
+			isDisplayable = this.movie==null?false:dao.isDisplayable(this.movie);
 			
-			producersId = new ArrayList<Integer>();
-			for(Celebrity c : movie.getProducers())
-				producersId.add(c.getId());
+			if (isDisplayable)
+			{
+				celebrities = daoCelebrity.loadLasts((int)daoCelebrity.count());
+				actorsId = new ArrayList<Integer>();
+				for(Celebrity c : movie.getActors())
+					actorsId.add(c.getId());
+				
+				producersId = new ArrayList<Integer>();
+				for(Celebrity c : movie.getProducers())
+					producersId.add(c.getId());				
+			}
 		}
 		
 
@@ -100,5 +106,13 @@ public class BeanMovieDetails {
 	{
 		System.out.println(this.movie);
 		return "";
+	}
+
+	public Boolean getIsDisplayable() {
+		return isDisplayable;
+	}
+
+	public void setIsDisplayable(Boolean isDisplayable) {
+		this.isDisplayable = isDisplayable;
 	}
 }

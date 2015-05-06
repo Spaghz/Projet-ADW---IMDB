@@ -15,7 +15,7 @@ public class BeanMovies implements Serializable {
 	
 	public BeanMovies()
 	{
-		listOfMovies = dao.loadAll();
+		listOfMovies = dao.loadAllPublished();
 	}
 
 	public List<Movie> getListOfMovies() {

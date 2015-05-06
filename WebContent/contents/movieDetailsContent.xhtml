@@ -7,80 +7,90 @@
 	<div class="container theme-showcase" role="main">
 		<!-- Example row of columns -->
 		<div class="row">
-			<div class="col-md-8">
-				<h:form>
-					<div id="newsDiv">
-						<h2>
-							<h:inputText class="form-control"
-								value="#{beanMovieDetails.movie.title}"></h:inputText>
-						</h2>
-						<h3>
-							<h:outputText value="Directed by"></h:outputText>
+			<h:panelGroup rendered="#{beanMovieDetails.isDisplayable}">
+				<div class="col-md-8">
+					<h:form>
+						<div id="newsDiv">
+							<h2>
+								<h:inputText class="form-control"
+									value="#{beanMovieDetails.movie.title}"></h:inputText>
+							</h2>
+							<h3>
+								<h:outputText value="Directed by"></h:outputText>
 
-							<h:selectOneMenu class="form-control"
-								value="#{beanMovieDetails.movie.director.id}">
-								<f:selectItems value="#{beanMovieDetails.celebrities}" var="c"
-									itemLabel="#{c.firstName} #{c.lastName}" itemValue="#{c.id}" />
-							</h:selectOneMenu>
-						</h3>
-						<p class="lead">Released on</p>
-						<div class="input-group date">
-							<h:inputText class="form-control datepicker" id="releaseDate"
-								value="#{beanMovieDetails.movie.releaseDate}" name="releaseDate"
-								label="releaseDate">
-								<f:convertDateTime pattern="d/M/yyyy" />
-							</h:inputText>
-							<span class="input-group-addon"> <i
-								class="glyphicon glyphicon-th"></i>
-							</span>
+								<h:selectOneMenu class="form-control"
+									value="#{beanMovieDetails.movie.director.id}">
+									<f:selectItems value="#{beanMovieDetails.celebrities}" var="c"
+										itemLabel="#{c.firstName} #{c.lastName}" itemValue="#{c.id}" />
+								</h:selectOneMenu>
+							</h3>
+							<p class="lead">Released on</p>
+							<div class="input-group date">
+								<h:inputText class="form-control datepicker" id="releaseDate"
+									value="#{beanMovieDetails.movie.releaseDate}"
+									name="releaseDate" label="releaseDate">
+									<f:convertDateTime pattern="d/M/yyyy" />
+								</h:inputText>
+								<span class="input-group-addon"> <i
+									class="glyphicon glyphicon-th"></i>
+								</span>
+							</div>
+							<hr />
+							<h:panelGroup
+								rendered="#{not empty beanMovieDetails.movie.actors}">
+								<p class="lead">Casting :</p>
+								<ul>
+									<h:selectManyListbox rows="10" class="form-control"
+										value="#{beanMovieDetails.actorsId}">
+										<f:selectItems value="#{beanMovieDetails.celebrities}" var="c"
+											itemLabel="#{c.firstName} #{c.lastName}" itemValue="#{c.id}"></f:selectItems>
+									</h:selectManyListbox>
+								</ul>
+							</h:panelGroup>
+							<hr />
+							<h:panelGroup
+								rendered="#{not empty beanMovieDetails.movie.producers}">
+								<p class="lead">Producers :</p>
+								<ul>
+									<h:selectManyListbox rows="10" class="form-control"
+										value="#{beanMovieDetails.producersId}">
+										<f:selectItems value="#{beanMovieDetails.celebrities}" var="c"
+											itemLabel="#{c.firstName} #{c.lastName}" itemValue="#{c.id}"></f:selectItems>
+									</h:selectManyListbox>
+
+
+								</ul>
+							</h:panelGroup>
+							<hr />
+							<p class="lead">Popularity :</p>
+							<h:outputText value="#{beanMovieDetails.movie.rank}"></h:outputText>
+							<hr />
+							<p class="lead">Synopsis :</p>
+							<h:inputTextarea style="height:250px;resize:vertical"
+								class="form-control" value="#{beanMovieDetails.movie.synopsis}"></h:inputTextarea>
+							<hr />
+							<p class="lead">Awards :</p>
+							<h:outputText value="#{beanMovieDetails.movie.rank}"></h:outputText>
+							<hr />
 						</div>
-						<hr />
-						<h:panelGroup
-							rendered="#{not empty beanMovieDetails.movie.actors}">
-							<p class="lead">Casting :</p>
-							<ul>
-								<h:selectManyListbox rows="10" class="form-control"
-									value="#{beanMovieDetails.actorsId}">
-									<f:selectItems value="#{beanMovieDetails.celebrities}" var="c"
-										itemLabel="#{c.firstName} #{c.lastName}" itemValue="#{c.id}"></f:selectItems>
-								</h:selectManyListbox>
-							</ul>
-						</h:panelGroup>
-						<hr />
-						<h:panelGroup
-							rendered="#{not empty beanMovieDetails.movie.producers}">
-							<p class="lead">Producers :</p>
-							<ul>
-								<h:selectManyListbox rows="10" class="form-control"
-									value="#{beanMovieDetails.producersId}">
-									<f:selectItems value="#{beanMovieDetails.celebrities}" var="c"
-										itemLabel="#{c.firstName} #{c.lastName}" itemValue="#{c.id}"></f:selectItems>
-								</h:selectManyListbox>						
-		
-								
-							</ul>
-						</h:panelGroup>
-						<hr />
-						<p class="lead">Popularity :</p>
-						<h:outputText value="#{beanMovieDetails.movie.rank}"></h:outputText>
-						<hr />
-						<p class="lead">Synopsis :</p>
-						<h:inputTextarea style="height:250px;resize:vertical"
-							class="form-control" value="#{beanMovieDetails.movie.synopsis}"></h:inputTextarea>
-						<hr />
-						<p class="lead">Awards :</p>
-						<h:outputText value="#{beanMovieDetails.movie.rank}"></h:outputText>
-						<hr />
-					</div>
-					
-					<h:commandButton action="#{beanMovieDetails.update}" class="btn btn-primary" value="Save modifications">
-						<f:param name="id" value="#{beanMovieDetails.movie.id}"></f:param>
-					</h:commandButton>
-				</h:form>
-			</div>
-			<div class="col-md-4">
-				<img class="img-responsive" src="http://placehold.it/300x300" alt="" />
-			</div>
+
+						<h:commandButton action="#{beanMovieDetails.update}"
+							class="btn btn-primary" value="Save modifications">
+							<f:param name="id" value="#{beanMovieDetails.movie.id}"></f:param>
+						</h:commandButton>
+					</h:form>
+				</div>
+				<div class="col-md-4">
+					<img class="img-responsive" src="http://placehold.it/300x300"
+						alt="" />
+				</div>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{not beanMovieDetails.isDisplayable}">
+				<div class="jumbotron">
+					<h1>Error : Movie not found</h1>
+					<p>This movie may be waiting for modifications or is simply not in our database!</p>
+				</div>
+			</h:panelGroup>
 		</div>
 
 		<hr />

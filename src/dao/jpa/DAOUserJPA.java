@@ -1,10 +1,12 @@
 package dao.jpa;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import utils.StringUtil;
 import core.Rights;
 import core.User;
 import dao.DAOUser;
@@ -36,8 +38,14 @@ public class DAOUserJPA implements DAOUser {
 	}
 
 	public void save(User user) {
-		if ((user.getId() == -1)&&(!nicknameExists(user.getNickName()))&&(!emailExists(user.getEmail())))
+		Boolean nicknameExists = nicknameExists(user.getNickName());
+		Boolean emailExists = emailExists(user.getEmail());
+		if ((user.getId() == -1)&&(nicknameExists==false)&&(emailExists==false))
 		{
+			user.setSalt(new byte[20]);
+			new SecureRandom().nextBytes(user.getSalt());
+			user.setPassword(StringUtil.getEncryptedPassword(user.getSalt(),user.getPassword()));
+			
 			DAOJPAPublished.getManager().persist(user);
 			DAOJPAPublished.commit();
 			

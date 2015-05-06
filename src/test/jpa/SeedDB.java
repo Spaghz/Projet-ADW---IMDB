@@ -71,7 +71,6 @@ public class SeedDB {
 	public void seedDB()
 	{
 		DAOJPAPublished.viderBase();
-		//DAOJPAUnpublished.viderBase();
 		init();
 		seedUsers();
 		seedCelebrities();

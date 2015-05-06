@@ -278,4 +278,10 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 		
 		return searchQuery.getResultList();
 	}
+
+	@Override
+	public List<Movie> loadAllPublished() 
+	{
+		return DAOJPAPublished.getManager().createNativeQuery("SELECT * FROM `movies` WHERE `id` NOT IN (SELECT `movieId` FROM `movieupdates`)",Movie.class).getResultList();
+	}
 }
