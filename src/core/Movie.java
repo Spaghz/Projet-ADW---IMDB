@@ -1,5 +1,7 @@
 package core;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -92,6 +94,21 @@ public class Movie {
 		this.releaseDate = releaseDate;
 		this.cost = cost;
 		this.synopsis = synopsis;
+	}
+	
+	public Movie(String title, String releaseDate,double cost,String synopsis)
+	{
+		this.title = title;
+		this.cost = cost;
+		this.synopsis = synopsis;
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			this.releaseDate = dateFormat.parse(releaseDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public Movie(int id,String title, Date releaseDate,double cost,String posterURI,int idDirector,String synopsis,int rank)
@@ -200,7 +217,7 @@ public class Movie {
 	
 	public String getTrimmedSynopsis()
 	{
-		return synopsis.substring(0,50).concat("...");
+		return (synopsis.length()>50)?synopsis.substring(0,50).concat("..."):synopsis;
 	}
 
 	@Override

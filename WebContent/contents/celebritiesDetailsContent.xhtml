@@ -24,7 +24,6 @@
 					<p>
 						<h:outputText value="#{beanCelebrityDetails.celebrity.biography}"></h:outputText>
 					</p>
-
 					<hr />
 				</div>
 			</div>
@@ -33,6 +32,99 @@
 			</div>
 		</div>
 
+		<h:panelGroup
+			rendered="#{not empty beanCelebrityDetails.movieDirected}">
+			<div class="row">
+				<div class="col-md-12">
+					<h3>
+						<h:outputText
+							value="#{beanCelebrityDetails.celebrity.firstName} #{beanCelebrityDetails.celebrity.lastName}"></h:outputText>
+						has directed the following movie(s) :
+					</h3>
+					<ul>
+						<ui:repeat var="m" value="#{beanCelebrityDetails.movieDirected}">
+							<li>
+								<h:link value="#{m.title}" outcome="movieDetails.xhtml">
+									<f:param name="id" value="#{m.id}"></f:param>
+								</h:link>
+							</li>
+						</ui:repeat>
+					</ul>
+				</div>
+
+			</div>
+		</h:panelGroup>
+
+		<h:panelGroup
+			rendered="#{not empty beanCelebrityDetails.movieProduced}">
+			<div class="row">
+				<div class="col-md-12">
+					<h3>
+						<h:outputText
+							value="#{beanCelebrityDetails.celebrity.firstName} #{beanCelebrityDetails.celebrity.lastName}"></h:outputText>
+						has produced the following movie(s) :
+					</h3>
+					<ul>
+						<ui:repeat var="m" value="#{beanCelebrityDetails.movieProduced}">
+							<li>
+								<h:link value="#{m.title}" outcome="movieDetails.xhtml">
+									<f:param name="id" value="#{m.id}"></f:param>
+								</h:link>
+							</li>
+						</ui:repeat>
+					</ul>
+				</div>
+
+			</div>
+		</h:panelGroup>
+		
+		<h:panelGroup
+			rendered="#{not empty beanCelebrityDetails.movieStarred}">
+			<div class="row">
+				<div class="col-md-12">
+					<h3>
+						<h:outputText
+							value="#{beanCelebrityDetails.celebrity.firstName} #{beanCelebrityDetails.celebrity.lastName}"></h:outputText>
+						has starred in the following movie(s) :
+					</h3>
+					<ul>
+						<ui:repeat var="m" value="#{beanCelebrityDetails.movieStarred}">
+							<li>
+								<h:link value="#{m.title}" outcome="movieDetails.xhtml">
+									<f:param name="id" value="#{m.id}"></f:param>
+								</h:link>
+							</li>
+						</ui:repeat>
+					</ul>
+				</div>
+
+			</div>
+		</h:panelGroup>
+		
+		<h:panelGroup
+			rendered="#{not empty beanCelebrityDetails.awardGot}">
+			<div class="row">
+				<div class="col-md-12">
+					<h3>
+						<h:outputText
+							value="#{beanCelebrityDetails.celebrity.firstName} #{beanCelebrityDetails.celebrity.lastName}"></h:outputText>
+						has been rewarded for the following movie(s) :
+					</h3>
+					<ul>
+						<ui:repeat var="a" value="#{beanCelebrityDetails.awardGot}">
+							<li>
+								<h:outputText value="#{a.awardName} for the movie "></h:outputText>
+								<h:link value="#{a.movie.title}" outcome="movieDetails.xhtml">
+									<f:param name="id" value="#{a.movie.id}"></f:param>
+								</h:link>	
+								<h:outputText value=" on #{a.awardDate}"></h:outputText>						
+							</li>
+						</ui:repeat>
+					</ul>
+				</div>
+
+			</div>
+		</h:panelGroup>
 		<hr />
 	</div>
 	<!-- /container -->

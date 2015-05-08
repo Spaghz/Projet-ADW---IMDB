@@ -6,23 +6,33 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
+import core.Award;
 import core.Celebrity;
 import core.Movie;
+import core.MovieUpdate;
+import dao.DAOAward;
 import dao.DAOCelebrity;
 import dao.DAOMovie;
+import dao.DAOMovieUpdate;
+import dao.jpa.DAOAwardJPA;
 import dao.jpa.DAOCelebrityJPA;
 import dao.jpa.DAOMovieJPA;
+import dao.jpa.DAOmovieUpdateJPA;
 
 
 public class BeanMovieDetails {
 	private Movie movie = null;
-	private DAOMovie dao = new DAOMovieJPA();
+	private DAOMovie daoMovie = new DAOMovieJPA();
 	private DAOCelebrity daoCelebrity = new DAOCelebrityJPA();
+	private DAOMovieUpdate daoMovieUpdate = new DAOmovieUpdateJPA();
+	private DAOAward daoAward = new DAOAwardJPA();
 	private List<Celebrity> celebrities;
 	private List<Integer> actorsId;
 	private List<Integer> producersId;
+	private List<Award>	awards;
 	private FacesContext fc = FacesContext.getCurrentInstance();
 	private Boolean isDisplayable;
+	private MovieUpdate movieUpdate;
 	
 	public BeanMovieDetails()
 	{
@@ -32,9 +42,13 @@ public class BeanMovieDetails {
 		}
 		else
 		{
-			setMovie(dao.get(getMovieCode(FacesContext.getCurrentInstance())));
+			Movie m = daoMovie.get(getMovieCode(FacesContext.getCurrentInstance()));
+			daoMovie.rankPlusOne(m);
+			m.setRank(m.getRank()+1);
+			setMovie(m);
+			movieUpdate = new MovieUpdate(movie);
 			
-			isDisplayable = this.movie==null?false:dao.isDisplayable(this.movie);
+			isDisplayable = this.movie==null?false:daoMovie.isDisplayable(this.movie);
 			
 			if (isDisplayable)
 			{
@@ -45,7 +59,9 @@ public class BeanMovieDetails {
 				
 				producersId = new ArrayList<Integer>();
 				for(Celebrity c : movie.getProducers())
-					producersId.add(c.getId());				
+					producersId.add(c.getId());		
+				
+				awards = daoAward.get(movie);
 			}
 		}
 		
@@ -98,14 +114,15 @@ public class BeanMovieDetails {
 
 	public String loadMovie()
 	{
-		setMovie(dao.get(getMovieCode(FacesContext.getCurrentInstance())));
+		setMovie(daoMovie.get(getMovieCode(FacesContext.getCurrentInstance())));
 		return "";
 	}
 	
-	public String update()
+	public String update() throws Exception
 	{
-		System.out.println(this.movie);
-		return "";
+		MovieUpdate mU = new MovieUpdate(this.movie);
+		daoMovieUpdate.save(mU);
+		return "index.xhtml";
 	}
 
 	public Boolean getIsDisplayable() {
@@ -114,5 +131,21 @@ public class BeanMovieDetails {
 
 	public void setIsDisplayable(Boolean isDisplayable) {
 		this.isDisplayable = isDisplayable;
+	}
+
+	public MovieUpdate getMovieUpdate() {
+		return movieUpdate;
+	}
+
+	public void setMovieUpdate(MovieUpdate movieUpdate) {
+		this.movieUpdate = movieUpdate;
+	}
+
+	public List<Award> getAwards() {
+		return awards;
+	}
+
+	public void setAwards(List<Award> awards) {
+		this.awards = awards;
 	}
 }

@@ -54,5 +54,7 @@ public class DAOJPAPublished extends DAOJPAManager{
 		getManager().createNativeQuery("ALTER TABLE celebrityupdates AUTO_INCREMENT = 1").executeUpdate();
 		getManager().createQuery("DELETE FROM MovieUpdate").executeUpdate();
 		getManager().createNativeQuery("ALTER TABLE movieupdates AUTO_INCREMENT = 1").executeUpdate();
+		getManager().createQuery("DELETE FROM Award").executeUpdate();
+		getManager().createNativeQuery("ALTER TABLE award AUTO_INCREMENT = 1").executeUpdate();
 		}
 }

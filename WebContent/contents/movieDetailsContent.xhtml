@@ -13,13 +13,13 @@
 						<div id="newsDiv">
 							<h2>
 								<h:inputText class="form-control"
-									value="#{beanMovieDetails.movie.title}"></h:inputText>
+									value="#{beanMovieDetails.movieUpdate.title}"></h:inputText>
 							</h2>
 							<h3>
 								<h:outputText value="Directed by"></h:outputText>
 
 								<h:selectOneMenu class="form-control"
-									value="#{beanMovieDetails.movie.director.id}">
+									value="#{beanMovieDetails.movieUpdate.director.id}">
 									<f:selectItems value="#{beanMovieDetails.celebrities}" var="c"
 										itemLabel="#{c.firstName} #{c.lastName}" itemValue="#{c.id}" />
 								</h:selectOneMenu>
@@ -27,7 +27,7 @@
 							<p class="lead">Released on</p>
 							<div class="input-group date">
 								<h:inputText class="form-control datepicker" id="releaseDate"
-									value="#{beanMovieDetails.movie.releaseDate}"
+									value="#{beanMovieDetails.movieUpdate.releaseDate}"
 									name="releaseDate" label="releaseDate">
 									<f:convertDateTime pattern="d/M/yyyy" />
 								</h:inputText>
@@ -70,7 +70,17 @@
 								class="form-control" value="#{beanMovieDetails.movie.synopsis}"></h:inputTextarea>
 							<hr />
 							<p class="lead">Awards :</p>
-							<h:outputText value="#{beanMovieDetails.movie.rank}"></h:outputText>
+								<ul>
+								<ui:repeat var="a" value="#{beanMovieDetails.awards}">
+								<li>
+									<h:outputText value="#{a.awardName} won by "></h:outputText>
+										<h:link value="#{a.celebrity.firstName} #{a.celebrity.lastName} " outcome="celebrityDetails.xhtml">
+											<f:param name="id" value="#{a.celebrity.id}"></f:param>
+										</h:link>										
+									<h:outputText value="on #{a.awardDate}"></h:outputText>
+								</li>
+								</ui:repeat>								
+								</ul>
 							<hr />
 						</div>
 

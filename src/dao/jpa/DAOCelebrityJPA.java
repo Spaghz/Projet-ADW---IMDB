@@ -1,16 +1,17 @@
 package dao.jpa;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Query;
 
+import core.Award;
 import core.Celebrity;
 import core.CelebrityUpdate;
 import core.Movie;
 import dao.DAOCelebrity;
 import dao.DAOCelebrityUpdate;
+import dao.DAOMovie;
 import dao.jpa.managers.DAOJPAPublished;
 import dao.jpa.managers.DAOJPAUnpublished;
 
@@ -164,6 +165,41 @@ public class DAOCelebrityJPA extends DAOJPAUnpublished implements DAOCelebrity {
 			searchQuery=searchQuery.setParameter("searchString"+String.valueOf(i),"%"+searchStrings[i]+"%");
 		
 		return searchQuery.getResultList();
+	}
+
+	@SuppressWarnings({ "unchecked", "unused" })
+	@Override
+	public List<Movie> getMovieProduced(Celebrity c) {
+		List<Integer> idMovies = DAOJPAPublished.getManager().createNativeQuery("SELECT `idMovie` FROM `produce` WHERE `idCelebrity` = "+c.getId()).getResultList();
+		List<Movie> res = new ArrayList<Movie>();
+		for(Integer i : idMovies)
+		{
+			res.add(new DAOMovieJPA().get(i));
+		}
+		return res;
+	}
+
+	@Override
+	public List<Movie> getMovieStarred(Celebrity c) {
+		List<Integer> idMovies = DAOJPAPublished.getManager().createNativeQuery("SELECT `idMovie` FROM `play` WHERE `idCelebrity` = "+c.getId()).getResultList();
+		
+		List<Movie> res = new ArrayList<Movie>();
+		for(Integer i : idMovies)
+		{
+			res.add(new DAOMovieJPA().get(i));
+		}
+		return res;
+
+	}
+
+	@Override
+	public List<Movie> getMovieDirected(Celebrity c) {
+		return DAOJPAPublished.getManager().createQuery("SELECT m FROM Movie m WHERE m.director = :c",Movie.class).setParameter("c",c).getResultList();
+	}
+
+	@Override
+	public List<Award> getAwards(Celebrity c) {
+		return DAOJPAPublished.getManager().createQuery("SELECT a FROM Award a WHERE a.celebrity = :c",Award.class).setParameter("c",c).getResultList();
 	}
 
 }

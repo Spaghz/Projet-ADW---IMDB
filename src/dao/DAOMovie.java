@@ -4,6 +4,7 @@ import java.util.List;
 
 import core.Celebrity;
 import core.Movie;
+import core.MovieUpdate;
 
 public interface DAOMovie {
 	Movie get(int code);
@@ -17,6 +18,8 @@ public interface DAOMovie {
 	void publish(Movie movie) throws Exception;
 
 	void removeFromUnpublished(Movie movie);
+	
+	void remove(Movie movie);
 
 	long count();
 
@@ -28,7 +31,7 @@ public interface DAOMovie {
 
 	List<Movie> loadAll();
 
-	List<Movie> loadAllNotPublished();
+	List<MovieUpdate> loadAllNotPublished();
 	
 	List<Movie> loadAllPublished();
 	
@@ -40,7 +43,9 @@ public interface DAOMovie {
 
 	List<Celebrity> getProducers(int code);
 
-	void updatePublish(Movie m);
+	void updatePublish(Movie m) throws Exception;
 	
 	Boolean isDisplayable(Movie movie);
+	
+	void rankPlusOne(Movie movie);
 }

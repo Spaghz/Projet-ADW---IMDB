@@ -11,10 +11,13 @@ import javax.faces.context.FacesContext;
 
 import core.Celebrity;
 import core.Movie;
+import core.MovieUpdate;
 import dao.DAOCelebrity;
 import dao.DAOMovie;
+import dao.DAOMovieUpdate;
 import dao.jpa.DAOCelebrityJPA;
 import dao.jpa.DAOMovieJPA;
+import dao.jpa.DAOmovieUpdateJPA;
 
 public class BeanAdminChanges implements Serializable {
 
@@ -25,7 +28,8 @@ public class BeanAdminChanges implements Serializable {
 
 	private DAOMovie daoMovie = new DAOMovieJPA();
 	private DAOCelebrity daoCelebrity = new DAOCelebrityJPA();
-	private List<Movie> movies;
+	private DAOMovieUpdate daoMovieUpdate = new DAOmovieUpdateJPA();
+	private List<MovieUpdate> movies;
 	private List<Celebrity> celebrities;
 
 	public BeanAdminChanges() {
@@ -33,13 +37,19 @@ public class BeanAdminChanges implements Serializable {
 		celebrities = daoCelebrity.loadAll();
 	}
 
-	public List<Movie> getMovies() {
+
+
+	public List<MovieUpdate> getMovies() {
 		return movies;
 	}
 
-	public void setMovies(List<Movie> movies) {
+
+
+	public void setMovies(List<MovieUpdate> movies) {
 		this.movies = movies;
 	}
+
+
 
 	public List<Celebrity> getCelebrities() {
 		return celebrities;
@@ -49,18 +59,32 @@ public class BeanAdminChanges implements Serializable {
 		this.celebrities = celebrities;
 	}
 
-	public void publish() throws Exception {
+	public String publish() throws Exception {
 		int idToPublish = Integer.parseInt(FacesContext.getCurrentInstance()
 				.getExternalContext().getRequestParameterMap()
 				.get("idToPublish"));
-		daoMovie.publish(daoMovie.get(idToPublish));/*
-		FacesContext facesContext = FacesContext.getCurrentInstance();
-		String refreshpage = facesContext.getViewRoot().getViewId();
-		ViewHandler viewHandler = facesContext.getApplication()
-				.getViewHandler();
-		UIViewRoot viewroot = viewHandler.createView(facesContext, refreshpage);
-		viewroot.setViewId(refreshpage);
-		facesContext.setViewRoot(viewroot);*/
+		daoMovie.publish(daoMovie.get(idToPublish));
+		return "index.xhtml";
+	}
+	
+	public String discard() throws Exception
+	{
+		try
+		{
+			// Discard = supprimer simplement la ligne de MoviesUpdates
+			int idToPublish = Integer.parseInt(FacesContext.getCurrentInstance()
+					.getExternalContext().getRequestParameterMap()
+					.get("idToPublish"));
+			
+			daoMovieUpdate.remove(daoMovie.get(idToPublish));
+			return "index.xhtml";		
+		}
+		catch (Exception E)
+		{
+			System.err.println(E);
+		}
+		return "index.xhtml";
+
 	}
 
 }

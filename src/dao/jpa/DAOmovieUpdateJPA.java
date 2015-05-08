@@ -51,4 +51,21 @@ public class DAOmovieUpdateJPA implements DAOMovieUpdate {
 	
 	}
 
+	@Override
+	public MovieUpdate get(int movieId) {
+		if (movieId>0)
+		{
+			return (MovieUpdate) DAOJPAPublished.getManager().createNativeQuery("SELECT * FROM `movieupdates` WHERE `movieId` = :movieId",MovieUpdate.class)
+					.setParameter("movieId",movieId)
+					.getSingleResult();
+		}
+		return null;
+	}
+
+	@Override
+	public void remove(int movieId) {
+		DAOJPAPublished.getManager().createQuery("DELETE FROM MovieUpdate AS mU WHERE mU.movieBeingUpdated = :movieId",MovieUpdate.class).setParameter("movieId",movieId).executeUpdate();
+		DAOJPAPublished.commit();
+	}
+
 }

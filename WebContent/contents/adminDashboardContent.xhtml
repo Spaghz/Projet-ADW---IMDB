@@ -19,7 +19,7 @@
 	    				<!-- column header -->
 	    				<f:facet name="header">Id</f:facet>
 	    				<!-- row record -->
-	    				<h:outputText value="#{currentMovie.id}"></h:outputText>
+	    				<h:outputText value="#{currentMovie.movieBeingUpdated.id}"></h:outputText>
 	    			</h:column>
 	    			<h:column>
 	    				<!-- column header -->
@@ -50,7 +50,15 @@
 	    				<f:facet name="header">Publish</f:facet>
 	    				<!-- row record -->
 	    				<h:commandButton class="btn btn-primary" value="Publish" action="#{beanAdminChanges.publish}">
-	    					<f:param name="idToPublish" value="#{currentMovie.id}"></f:param>
+	    					<f:param name="idToPublish" value="#{currentMovie.movieBeingUpdated.id}"></f:param>
+	    				</h:commandButton>
+	    			</h:column>
+	      			<h:column>
+	    				<!-- column header -->
+	    				<f:facet name="header">Discard</f:facet>
+	    				<!-- row record -->
+	    				<h:commandButton class="btn btn-danger" value="Discard" action="#{beanAdminChanges.discard}">
+	    					<f:param name="idToPublish" value="#{currentMovie.movieBeingUpdated.id}"></f:param>
 	    				</h:commandButton>
 	    			</h:column>
 				</h:dataTable>

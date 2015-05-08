@@ -12,7 +12,7 @@ public class DAOAwardJPA implements DAOAward {
 
 	@Override
 	public List<Award> get(Movie m, Celebrity c) {
-		return DAOJPAPublished.getManager().createQuery("SELECT a FROM Award a WHERE celebrity = :celebrity AND movie = :movie)",Award.class)
+		return DAOJPAPublished.getManager().createQuery("SELECT a FROM Award a WHERE a.celebrity = :celebrity AND a.movie = :movie",Award.class)
 				.setParameter("celebrity",c)
 				.setParameter("movie",m)
 				.getResultList();
@@ -20,7 +20,7 @@ public class DAOAwardJPA implements DAOAward {
 
 	@Override
 	public List<Award> get(Movie m) {
-		return DAOJPAPublished.getManager().createQuery("SELECT a FROM Award a WHERE movie = :movie)",Award.class)
+		return DAOJPAPublished.getManager().createQuery("SELECT a FROM Award a WHERE a.movie = :movie",Award.class)
 				.setParameter("movie",m)
 				.getResultList();
 	}

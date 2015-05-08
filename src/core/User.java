@@ -64,7 +64,7 @@ public class User {
 	private Boolean isAdmin = false;
 	
 	@Transient
-	private Boolean isPro	= false;
+	private Boolean isPro	= true;
 	
 	@Column(name="salt")
 	private byte[] salt;

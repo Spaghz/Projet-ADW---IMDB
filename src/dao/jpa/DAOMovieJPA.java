@@ -39,8 +39,10 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 	public void save(Movie movie) throws Exception {
 
 		if (movie.getId() == -1) {
-			if ((movie.getDirector() != null)
-					&& (movie.getDirector().getId() == -1)) {
+			
+			if (movie.getDirector()==null)
+				throw new IllegalArgumentException("Movie must have a director!");
+			if ((movie.getDirector().getId() == -1)) {
 				daoCelebrity.save(movie.getDirector());
 			}
 
@@ -152,18 +154,21 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 	}
 
 	@Override
-	public List<Movie> loadAllNotPublished() {
+	public List<MovieUpdate> loadAllNotPublished() {
 		/*
 		 * return DAOJPAUnpublished.getManager()
 		 * .createQuery("SELECT m FROM Movie m", Movie.class) .getResultList();
 		 */
 		// Récupération des ID non publiés :
+		/*
 		ArrayList<Movie> res = new ArrayList<Movie>();
 		List<MovieUpdate> list = daoMovieUpdate.loadAll();
 		for (MovieUpdate movieUpdate : list) {
 			res.add(this.get(movieUpdate.getMovieBeingUpdated().getId()));
 		}
 		return res;
+		*/
+		return DAOJPAPublished.getManager().createNativeQuery("SELECT * FROM `movieupdates`",MovieUpdate.class).getResultList();
 	}
 
 	public Movie getNotPublished(int i) {
@@ -214,36 +219,46 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 
 		this.removeFromUnpublished(movie);
 		*/
+		MovieUpdate mU = daoMovieUpdate.get(movie);
+		movie.setCost(mU.getCost());
+		movie.setDirector(mU.getDirector());
+		movie.setPosterURI(mU.getPosterURI());
+		movie.setReleaseDate(mU.getReleaseDate());
+		
 		daoMovieUpdate.remove(movie);
+		this.remove(movie);
+		this.updatePublish(movie);
 	}
 
 	@Override
-	public void updatePublish(Movie m) {
-		/*
-		Query query = DAOJPAPublished
-				.getManager()
-				.createQuery(
-						"UPDATE Movie AS m SET "
-								+ "m.title = :title, "
-								+ "m.releaseDate = :releaseDate, "
-								+ "m.cost = :cost, "
-								+ "m.posterURI = :posterURI, ".concat(m
-										.getDirector() != null ? "m.director = :idDirector, "
-										: "") + "m.synopsis = :synopsis, "
-								+ "m.rank = :rank " + "WHERE m.id = :id")
-				.setParameter("title", m.getTitle())
-				.setParameter("releaseDate", m.getReleaseDate())
-				.setParameter("cost", m.getCost())
-				.setParameter("posterURI", m.getPosterURI())
-				.setParameter("synopsis", m.getSynopsis())
-				.setParameter("rank", m.getRank())
-				.setParameter("id", m.getId());
+	public void updatePublish(Movie movie) throws Exception{
+		if (movie.getId() == -1) {
+			if ((movie.getDirector() != null)
+					&& (movie.getDirector().getId() == -1)) {
+				daoCelebrity.save(movie.getDirector());
+			}
 
-		if (m.getDirector() != null)
-			query.setParameter("idDirector", m.getDirector().getId());
+			if (movie.getActors() != null) {
+				for (Celebrity c : movie.getActors()) {
+					if (c.getId() == -1)
+						daoCelebrity.save(c);
+				}
+			}
 
-		int updatedOccurences = query.executeUpdate();
-		*/
+			if (movie.getProducers() != null) {
+				for (Celebrity c : movie.getProducers()) {
+					if (c.getId() == -1)
+						daoCelebrity.save(c);
+				}
+			}
+			DAOJPAPublished.getManager().persist(movie);
+			DAOJPAPublished.commit();
+			
+			
+		} else {
+			throw new IllegalArgumentException(
+					"This movie is already saved in the database");
+		}
 	}
 
 	@Override
@@ -283,5 +298,24 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 	public List<Movie> loadAllPublished() 
 	{
 		return DAOJPAPublished.getManager().createNativeQuery("SELECT * FROM `movies` WHERE `id` NOT IN (SELECT `movieId` FROM `movieupdates`)",Movie.class).getResultList();
+	}
+
+	@Override
+	public void remove(Movie movie) {
+		if (movie.getId()>0)
+		{
+			DAOJPAPublished.getManager().remove(movie);
+			DAOJPAPublished.commit();
+			movie.setId(-1);
+		}
+			
+		
+	}
+
+	@Override
+	public void rankPlusOne(Movie movie) {
+		DAOJPAPublished.getManager().createNativeQuery("UPDATE `movies` SET `rank` = "+movie.getRank()+1+" WHERE `movies`.`id` = "+movie.getId())
+			.executeUpdate();
+		DAOJPAPublished.commit();
 	}
 }

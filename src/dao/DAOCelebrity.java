@@ -3,7 +3,9 @@ package dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import core.Award;
 import core.Celebrity;
+import core.Movie;
 import core.News;
 
 public interface DAOCelebrity {
@@ -30,4 +32,9 @@ public interface DAOCelebrity {
 	List<Celebrity> loadAll();
 	
 	List<Celebrity> search(String searchString);
+	
+	List<Movie> getMovieProduced(Celebrity c);
+	List<Movie> getMovieStarred(Celebrity c);
+	List<Movie> getMovieDirected (Celebrity c);
+	List<Award> getAwards(Celebrity c);
 }

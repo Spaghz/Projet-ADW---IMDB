@@ -1,5 +1,7 @@
 package core;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -48,6 +50,22 @@ public class Celebrity {
 		this.biography = biography;
 		this.birthDate = birthDate;
 		this.pictureURI = pictureURI;
+	}
+	
+	public Celebrity(String firstName, String lastName, String biography,
+			String birthDate, String pictureURI) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.biography = biography;
+		this.pictureURI = pictureURI;
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		try {
+			this.birthDate = dateFormat.parse(birthDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public int getId() {

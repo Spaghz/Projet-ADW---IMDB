@@ -7,8 +7,8 @@
 	<div class="container">
 		<!-- Main jumbotron for a primary marketing message or call to action -->
 		<div class="jumbotron">
-			<h1>Wanna add a movie?</h1>
-			<p>It better be damn good, son.</p>
+			<h1>Awards</h1>
+			<p>Giving credits to skilled people since 1560 LOL.</p>
 		</div>
 
 		<div class="row"></div>
@@ -19,13 +19,13 @@
 				<!-- Movie title -->
 				<div class="form-group">
 					<h:outputLabel class="col-md-2 control-label" for="movieTitle"
-						value="Movie title"></h:outputLabel>
+						value="Movie"></h:outputLabel>
 					<div class="col-md-5">
-						<h:inputText value="#{beanAddMovie.movie.title}" id="movieTitle"
-							name="movieTitle" type="text" class="form-control input-md"
-							required="true" label="movie title">
-							<f:ajax event="blur" render="errorMovieTitle" />
-						</h:inputText>
+						<h:selectOneMenu id="movieTitle" class="form-control"
+							value="#{beanAddAward.selectedMovieId}">
+							<f:selectItems value="#{beanAddAward.movies}" var="m"
+								itemLabel="#{m.title}" itemValue="#{m.id}" />
+						</h:selectOneMenu>
 					</div>
 					<div class="col-md-5">
 						<div class="alert alert-warning" role="alert">
@@ -33,17 +33,37 @@
 								id="errorMovieTitle" errorClass="errorMessage"></h:message>
 						</div>
 					</div>
-				</div>		
-				
-				<!-- Release Date -->
+				</div>	
+					
+				<!-- Celeb title -->
 				<div class="form-group">
-					<h:outputLabel class="col-md-2 control-label" for="Award name"
-						value="releaseDate"></h:outputLabel>
+					<h:outputLabel class="col-md-2 control-label" for="celebName"
+						value="Celebrity"></h:outputLabel>
+					<div class="col-md-5">
+						<h:selectOneMenu id="celebName" class="form-control"
+							value="#{beanAddAward.selectedCelebrityId}">
+							<f:selectItems value="#{beanAddAward.celebrities}" var="c"
+								itemLabel="#{c.lastName} #{c.firstName}" itemValue="#{c.id}" />
+								<f:ajax event="blur" render="errorCeleb" />
+						</h:selectOneMenu>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="celebName"
+								id="errorCeleb" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>	
+								
+				<!-- Award Date -->
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="releaseDate"
+						value="Award date"></h:outputLabel>
 					<div class="col-md-5">
 
 						<div class="input-group date">
 							<h:inputText class="form-control datepicker" id="releaseDate"
-								value="#{beanAddMovie.movie.releaseDate}" name="releaseDate"
+								value="#{beanAddAward.awardDate}" name="releaseDate"
 								label="releaseDate">
 								<f:convertDateTime pattern="d/M/yyyy" />
 								<f:ajax event="blur" render="errorreleaseDate" />
@@ -61,7 +81,35 @@
 					</div>
 				</div>		
 				
-				
+				<!-- Text input-->
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="awardName"
+						value="Award title"></h:outputLabel>
+					<div class="col-md-5">
+						<h:inputText value="#{beanAddAward.awardName}"
+							id="awardName" name="awardName" type="text"
+							class="form-control input-md" required="true"
+							required-message="Please enter the title of the award."
+							label="Award title">
+							<f:ajax event="blur" render="errorAwardName" />
+						</h:inputText>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="firstName"
+								id="errorAwardName" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>		
+						
+				<!-- Button -->
+				<div class="form-group">
+					<div class="col-md-12">
+						<h:commandButton action="#{beanAddAward.addAward}"
+							id="addAwardBtn" name="addAwardBtn" class="btn btn-primary"
+							value="Add award"></h:commandButton>
+					</div>
+				</div>			
 			</fieldset>
 		</h:form>
 	</div>

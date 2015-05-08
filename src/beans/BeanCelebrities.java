@@ -6,6 +6,7 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 
 import core.Celebrity;
+import core.Movie;
 import dao.DAOCelebrity;
 import dao.jpa.DAOCelebrityJPA;
 
@@ -16,6 +17,9 @@ public class BeanCelebrities {
 	
 	private DAOCelebrity 	daoCelebrityJPA = new DAOCelebrityJPA();
 	private List<Celebrity>	celebritiesToDisplay;
+	private List<Movie>		movieProduced;
+	private List<Movie>		movieDirected;
+	private List<Movie>		movieStarred;
 	
 	
 	public BeanCelebrities()
