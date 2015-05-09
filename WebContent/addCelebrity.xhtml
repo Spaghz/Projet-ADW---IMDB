@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="templates/templateClassic.xhtml">
+	<ui:define name="additionalCSS">
+		<h:outputStylesheet library="css" name="bootstrap-datepicker.css"></h:outputStylesheet>
+	</ui:define>
+	<ui:define rendered="#{beanLogin.user.isAdmin==true}" name="title">MIMovie - Add a movie</ui:define>
+	<ui:define rendered="#{beanLogin.user.isAdmin==false}" name="title">MIMovie</ui:define>
+	<ui:define name="content">
+		<ui:fragment rendered="#{beanLogin.user.isPro}">
+			<ui:include src="/contents/addCelebrityContent.xhtml"></ui:include>	
+		</ui:fragment>
+		<ui:fragment rendered="#{beanLogin.user==null||beanLogin.user.isPro==false}">
+			<ui:include src="/contents/indexContent.xhtml"></ui:include>
+		</ui:fragment>	
+	</ui:define>
+	<ui:define name="additionalJS">
+		<h:outputScript library="js" name="datePicker.js" />	
+	</ui:define>
+</ui:composition>
+</html>

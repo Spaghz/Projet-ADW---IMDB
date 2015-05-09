@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<pageflow:Pageflow xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14279973693790" configfile="/ADWProj/WebContent/WEB-INF/faces-config.xml"/>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14279973693790" configfile="/ADWProj/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="addAward.xhtml" x="122" y="178" id="pf14311851533440" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf14311851533441 pf14311851533442" path="/addAward.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="index.xhtml" x="338" y="178" id="pf14311851533443" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14311851533441 pf14311851533442" path="/index.xhtml"/>
+  <links id="pf14311851533441" target="pf14311851533443" source="pf14311851533440" outcome="success" fromaction="#{beanAddAward.addAward}"/>
+  <links id="pf14311851533442" target="pf14311851533443" source="pf14311851533440" outcome="failure" fromaction="#{beanAddAward.addAward}"/>
+</pageflow:Pageflow>

@@ -1,0 +1,113 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition>
+	<div class="container">
+		<!-- Main jumbotron for a primary marketing message or call to action -->
+		<div class="jumbotron">
+			<h1>Wanna add a celebrity?</h1>
+			<p>Just do it. (Nike)</p>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<h:messages globalonly="true"></h:messages>
+			</div>
+		</div>
+
+		<h:form id="addCelebrityForm" class="form-horizontal">
+			<fieldset>
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label"
+						for="celebrityFirstName" value="First name"></h:outputLabel>
+					<div class="col-md-5">
+						<h:inputText value="#{beanAddCelebrity.c.firstName}"
+							id="celebrityFirstName" type="text" class="form-control input-md"
+							required="true" label="First name">
+							<f:ajax event="blur" render="errorcelebrityFirstName" />
+						</h:inputText>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="celebrityFirstName"
+								id="errorcelebrityFirstName" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label"
+						for="celebrityLastName" value="Last name"></h:outputLabel>
+					<div class="col-md-5">
+						<h:inputText value="#{beanAddCelebrity.c.lastName}"
+							id="celebrityLastName" type="text" class="form-control input-md"
+							required="true" label="Last name">
+							<f:ajax event="blur" render="errorcelebrityLastName" />
+						</h:inputText>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="celebrityLastName"
+								id="errorcelebrityLastName" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="birthDate"
+						value="birthDate"></h:outputLabel>
+					<div class="col-md-5">
+
+						<div class="input-group date">
+							<h:inputText class="form-control datepicker" id="birthDate"
+								value="#{beanAddCelebrity.c.birthDate}" label="Birth date" required="true">
+								<f:convertDateTime pattern="d/M/yyyy" />
+								<f:ajax event="blur" render="errorbirthDate" />
+							</h:inputText>
+							<span class="input-group-addon"> <i
+								class="glyphicon glyphicon-th"></i>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message for="birthDate" id="errorbirthDate"
+								errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label"
+						for="celebrityBiography" value="Biography"></h:outputLabel>
+					<div class="col-md-5">
+						<div class="input-group">
+							<h:inputTextarea required="true" label="Biography" style=""
+								class="form-control" value="#{beanAddCelebrity.c.biography}"></h:inputTextarea>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="celebrityBiography"
+								id="errorccelebrityBiography" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="form-group">
+					<h:commandButton action="#{beanAddCelebrity.addCelebrity}"
+						class="btn btn-primary" value="Add movie">
+					</h:commandButton>
+				</div>
+
+
+			</fieldset>
+		</h:form>
+	</div>
+</ui:composition>
+</html>
+

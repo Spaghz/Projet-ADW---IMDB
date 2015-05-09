@@ -92,20 +92,22 @@ public class SeedDB {
 		this.grandTorino.setDirector(this.clintEastwood);
 		
 		this.tomRosenberg = new Celebrity("Tom","Rosenberg","Tom Rosenberg is a producer, known for Million Dollar Baby (2004), Underworld (2003) and Hyper tension (2006).","04/08/1964","");
-		
-		this.millionDollarBaby = new Movie("Million Dollar Baby","03/06/2004",1548700,"A determined woman works with a hardened boxing trainer to become a professional.");
-		this.millionDollarBaby.addActor(clintEastwood);
-		this.millionDollarBaby.setDirector(clintEastwood);
-		this.millionDollarBaby.addProducer(this.albertSRuddy);
-		this.millionDollarBaby.addActor(this.hilarySwank);
-		this.hilarySwank = new Celebrity("Hilary","Swank","Hiilary was born in Lincoln, Nebraska, to Judith Kay (Clough), a secretary, and Stephen Michael Swank, who served in the National Guard and was also a traveling salesman. Her maternal grandmother, Frances Martha Dominguez, was of Mexican descent, and her other roots include German, English, and Scottish. During her early childhood, her family moved...", "30/08/1974","");
 		this.albertSRuddy = new Celebrity("Albert S.","Rudy","Albert S. Ruddy was born on March 28, 1930 in Montreal, Quebec, Canada. He is a writer and producer, known for Mi-temps au mitard (2005), Walker, Texas Ranger (1993) and Stalag 13 (1965).","28/03/1930","");
+
+		this.hilarySwank = new Celebrity("Hilary","Swank","Hiilary was born in Lincoln, Nebraska, to Judith Kay (Clough), a secretary, and Stephen Michael Swank, who served in the National Guard and was also a traveling salesman. Her maternal grandmother, Frances Martha Dominguez, was of Mexican descent, and her other roots include German, English, and Scottish. During her early childhood, her family moved...", "30/08/1974","");
 
 		try {
 			daoCelebrity.save(this.clintEastwood);
 			daoCelebrity.save(this.sergioLeone);
 			daoCelebrity.save(this.hilarySwank);
 			daoCelebrity.save(this.albertSRuddy);
+			
+			this.millionDollarBaby = new Movie("Million Dollar Baby","03/06/2004",1548700,"A determined woman works with a hardened boxing trainer to become a professional.");
+			this.millionDollarBaby.addActor(clintEastwood);
+			this.millionDollarBaby.setDirector(clintEastwood);
+			this.millionDollarBaby.addProducer(this.albertSRuddy);
+			this.millionDollarBaby.addActor(this.hilarySwank);			
+			
 			daoMovie.save(this.bonBruteTruand);
 			daoMovie.save(this.millionDollarBaby);
 			

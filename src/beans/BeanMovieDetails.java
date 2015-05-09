@@ -69,9 +69,15 @@ public class BeanMovieDetails {
 	}
 	
 	public int getMovieCode(FacesContext fc){
-		 
-		Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
-		return Integer.parseInt(params.get("id"));
+		 try
+		 {
+				Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+				return Integer.parseInt(params.get("id"));
+		 }
+		 catch(Exception e)
+		 {
+			 return 0;
+		 }
 	}
 	
 	public Boolean isModification(FacesContext fc)

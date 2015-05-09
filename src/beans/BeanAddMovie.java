@@ -3,6 +3,9 @@ package beans;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+
 import core.Celebrity;
 import core.Movie;
 import dao.DAOCelebrity;
@@ -43,16 +46,28 @@ public class BeanAddMovie implements Serializable{
 	
 	public String addMovie()
 	{
-		if (movie.getTitle()!=null)
-			if (movie.getReleaseDate()!=null)
-				try {
-					movie.setDirector(daoCelebrity.get(movie.getDirector().getId()));
-					daoMovie.save(movie);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		return "index.xhtml";
+		try
+		{
+			if (movie.getTitle()==null)
+				throw new Exception("Movie title can't be empty!");
+			
+			if (movie.getReleaseDate()==null)
+				throw new Exception("Please enter a release date.");
+			
+			movie.setDirector(daoCelebrity.get(movie.getDirector().getId()));
+			daoMovie.save(movie);
+			
+			return "index.xhtml";
+		}
+		catch (Exception e)
+		{
+			 FacesMessage message = new FacesMessage();
+			 message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			 message.setSummary(e.getMessage());
+			 message.setDetail(e.getMessage());
+			 FacesContext.getCurrentInstance().addMessage(null, message);
+			 return "";
+		}
 	}
 	
 

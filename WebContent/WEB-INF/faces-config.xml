@@ -59,6 +59,11 @@
 		<managed-bean-class>beans.BeanAddAward</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>beanAddCelebrity</managed-bean-name>
+		<managed-bean-class>beans.BeanAddCelebrity</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
 	<navigation-rule>
 	    <from-view-id>/addAward.xhtml</from-view-id>
 	    <navigation-case>
