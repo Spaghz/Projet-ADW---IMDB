@@ -6,14 +6,17 @@ import java.util.List;
 
 import org.junit.Before;
 
+import core.Award;
 import core.Celebrity;
 import core.Movie;
 import core.News;
 import core.User;
+import dao.DAOAward;
 import dao.DAOCelebrity;
 import dao.DAOMovie;
 import dao.DAONews;
 import dao.DAOUser;
+import dao.jpa.DAOAwardJPA;
 import dao.jpa.DAOCelebrityJPA;
 import dao.jpa.DAOMovieJPA;
 import dao.jpa.DAONewsJPA;
@@ -27,10 +30,15 @@ public class SeedDB {
 	private DAONews daoNews = new DAONewsJPA();
 	private DAOUser daoUser = new DAOUserJPA();
 	private DAOCelebrity daoCelebrity = new DAOCelebrityJPA();
+	private DAOAward daoAward = new DAOAwardJPA();
 	private DAOMovie daoMovie = new DAOMovieJPA();
 	private User 	adminUser1,proUser1,proUser2;
-	private Celebrity clintEastwood,sergioLeone;
-	private Movie bonBruteTruand;
+	private Celebrity clintEastwood,sergioLeone,albertSRuddy,tomRosenberg,hilarySwank;
+	private Movie bonBruteTruand,grandTorino,millionDollarBaby;
+	
+	private ArrayList<Movie> moviesToSeed = new ArrayList<Movie>();
+	private ArrayList<Award> awardsToSeed = new ArrayList<Award>();
+	
 	/*
 			c2 = new Celebrity("Christoph","Waltz",new LoremIpsum().getWords(250),new Date(1956,10,4),""),
 			c3 = new Celebrity("Robert","Downey Jr.",new LoremIpsum().getWords(150),new Date(1965,4,4),""),
@@ -79,10 +87,40 @@ public class SeedDB {
 		this.bonBruteTruand.addActor(clintEastwood);
 		this.bonBruteTruand.setDirector(sergioLeone);
 		
+		this.grandTorino = new Movie("Grand Torino","01/01/2008",1204500,"Disgruntled Korean War veteran Walt Kowalski sets out to reform his neighbor, a Hmong teenager who tried to steal Kowalski's prized possession: a 1972 Gran Torino.");
+		this.grandTorino.addActor(this.clintEastwood);
+		this.grandTorino.setDirector(this.clintEastwood);
+		
+		this.tomRosenberg = new Celebrity("Tom","Rosenberg","Tom Rosenberg is a producer, known for Million Dollar Baby (2004), Underworld (2003) and Hyper tension (2006).","04/08/1964","");
+		
+		this.millionDollarBaby = new Movie("Million Dollar Baby","03/06/2004",1548700,"A determined woman works with a hardened boxing trainer to become a professional.");
+		this.millionDollarBaby.addActor(clintEastwood);
+		this.millionDollarBaby.setDirector(clintEastwood);
+		this.millionDollarBaby.addProducer(this.albertSRuddy);
+		this.millionDollarBaby.addActor(this.hilarySwank);
+		this.hilarySwank = new Celebrity("Hilary","Swank","Hiilary was born in Lincoln, Nebraska, to Judith Kay (Clough), a secretary, and Stephen Michael Swank, who served in the National Guard and was also a traveling salesman. Her maternal grandmother, Frances Martha Dominguez, was of Mexican descent, and her other roots include German, English, and Scottish. During her early childhood, her family moved...", "30/08/1974","");
+		this.albertSRuddy = new Celebrity("Albert S.","Rudy","Albert S. Ruddy was born on March 28, 1930 in Montreal, Quebec, Canada. He is a writer and producer, known for Mi-temps au mitard (2005), Walker, Texas Ranger (1993) and Stalag 13 (1965).","28/03/1930","");
+
 		try {
 			daoCelebrity.save(this.clintEastwood);
 			daoCelebrity.save(this.sergioLeone);
+			daoCelebrity.save(this.hilarySwank);
+			daoCelebrity.save(this.albertSRuddy);
 			daoMovie.save(this.bonBruteTruand);
+			daoMovie.save(this.millionDollarBaby);
+			
+			
+			awardsToSeed.add(new Award(clintEastwood, millionDollarBaby,"Oscar : Best Motion Picture of the Year","01/01/2005"));
+			awardsToSeed.add(new Award(albertSRuddy, millionDollarBaby,"Oscar : Best Motion Picture of the Year","01/01/2005"));
+			awardsToSeed.add(new Award(tomRosenberg, millionDollarBaby,"Oscar : Best Motion Picture of the Year","01/01/2005"));
+			awardsToSeed.add(new Award(this.hilarySwank,millionDollarBaby,"Golden Globe : Best Performance by an Actress in a Motion Picture - Drama","01/01/2005"));
+			awardsToSeed.add(new Award(this.hilarySwank,millionDollarBaby,"Screen Actors Guild Awards - Outstanding Performance by a Female Actor in a Leading Role","02/06/2005"));
+			
+			for(Award a : awardsToSeed)
+			{
+				daoAward.save(a);
+			}
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

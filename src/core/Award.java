@@ -1,5 +1,7 @@
 package core;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -43,6 +45,20 @@ public class Award {
 		this.movie = movie;
 		this.awardName = awardName;
 		this.awardDate = awardDate;
+	}
+
+
+	public Award(Celebrity celebrity, Movie movie, String awardName,
+			String awardDate) {
+		this.celebrity = celebrity;
+		this.movie = movie;
+		this.awardName = awardName;
+		try {
+			this.awardDate = new SimpleDateFormat("dd/MM/yyyy").parse(awardDate);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 

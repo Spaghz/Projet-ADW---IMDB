@@ -6,9 +6,14 @@ import core.Award;
 import core.Celebrity;
 import core.Movie;
 import dao.DAOAward;
+import dao.DAOCelebrity;
+import dao.DAOMovie;
 import dao.jpa.managers.DAOJPAPublished;
 
 public class DAOAwardJPA implements DAOAward {
+	
+	private DAOMovie daoMovie = new DAOMovieJPA();
+	private DAOCelebrity daoCelebrity = new DAOCelebrityJPA();
 
 	@Override
 	public List<Award> get(Movie m, Celebrity c) {
@@ -26,18 +31,19 @@ public class DAOAwardJPA implements DAOAward {
 	}
 
 	@Override
-	public void save(Award a) {
+	public void save(Award a) throws Exception {
 		if ((a.getMovie()!=null)&&(a.getCelebrity()!=null)&&(!a.getAwardName().isEmpty()))
 		{
-			if ((a.getMovie().getId()!=-1)&&(a.getCelebrity().getId()!=-1))
-			{
+			if (a.getMovie().getId()==-1)
+				daoMovie.save(a.getMovie());
+			
+			if (a.getCelebrity().getId()==-1)
+				daoCelebrity.save(a.getCelebrity());
+			
+
 				DAOJPAPublished.getManager().persist(a);
 				DAOJPAPublished.commit();
-			}
-			else
-			{
-				throw new IllegalArgumentException("Movie and/or celebrity need to be persisted first");
-			}
+
 		}
 	}
 

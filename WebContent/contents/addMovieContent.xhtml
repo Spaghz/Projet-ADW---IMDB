@@ -15,14 +15,14 @@
 
 		<h:form id="addMovieForm" class="form-horizontal">
 			<fieldset>
-			
+
 				<!-- Movie title -->
 				<div class="form-group">
 					<h:outputLabel class="col-md-2 control-label" for="movieTitle"
 						value="Movie title"></h:outputLabel>
 					<div class="col-md-5">
 						<h:inputText value="#{beanAddMovie.movie.title}" id="movieTitle"
-							name="movieTitle" type="text" class="form-control input-md"
+							type="text" class="form-control input-md"
 							required="true" label="movie title">
 							<f:ajax event="blur" render="errorMovieTitle" />
 						</h:inputText>
@@ -33,8 +33,8 @@
 								id="errorMovieTitle" errorClass="errorMessage"></h:message>
 						</div>
 					</div>
-				</div>		
-				
+				</div>
+
 				<!-- Release Date -->
 				<div class="form-group">
 					<h:outputLabel class="col-md-2 control-label" for="releaseDate"
@@ -43,7 +43,7 @@
 
 						<div class="input-group date">
 							<h:inputText class="form-control datepicker" id="releaseDate"
-								value="#{beanAddMovie.movie.releaseDate}" name="releaseDate"
+								value="#{beanAddMovie.movie.releaseDate}" 
 								label="releaseDate">
 								<f:convertDateTime pattern="d/M/yyyy" />
 								<f:ajax event="blur" render="errorreleaseDate" />
@@ -59,9 +59,57 @@
 								errorClass="errorMessage"></h:message>
 						</div>
 					</div>
-				</div>		
-				
-				
+				</div>
+
+				<!-- Synopsis -->
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="synopsis"
+						value="Synopsis"></h:outputLabel>
+					<div class="col-md-5">
+						<h:inputText value="#{beanAddMovie.movie.synopsis}" id="synopsis"
+							name="synopsis" type="text" class="form-control input-md"
+							required="true" label="Synopsis">
+							<f:ajax event="blur" render="errorSynopsis" />
+						</h:inputText>
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="movieTitle"
+								id="errorSynopsis" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>
+
+
+
+				<div class="form-group">
+					<h:outputLabel class="col-md-2 control-label" for="director"
+						value="Director"></h:outputLabel>
+					<div class="col-md-5">
+						<h:selectOneMenu class="form-control"
+							value="#{beanAddMovie.movie.director.id}" id="director"
+							name="director">
+							<f:selectItems value="#{beanAddMovie.celebrities}" var="c"
+								itemLabel="#{c.firstName} #{c.lastName}" itemValue="#{c.id}" />
+							<f:ajax event="blur" render="errorDirector" />
+						</h:selectOneMenu>
+
+					</div>
+					<div class="col-md-5">
+						<div class="alert alert-warning" role="alert">
+							<h:message class="alert alert-danger" for="director"
+								id="errorDirector" errorClass="errorMessage"></h:message>
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<h:commandButton action="#{beanAddMovie.addMovie}"
+						class="btn btn-primary" value="Add movie">
+					</h:commandButton>
+				</div>
+
+
 			</fieldset>
 		</h:form>
 	</div>

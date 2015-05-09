@@ -62,7 +62,7 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 			DAOJPAPublished.getManager().persist(movie);
 			DAOJPAPublished.commit();
 			
-			daoMovieUpdate.save(new MovieUpdate(movie));
+			//daoMovieUpdate.save(new MovieUpdate(movie));
 			
 		} else {
 			throw new IllegalArgumentException(

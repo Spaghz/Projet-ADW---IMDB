@@ -78,7 +78,7 @@ public class BeanAddAward {
 		this.selectedCelebrityId = selectedCelebrityId;
 	}
 
-	public String addAward()
+	public String addAward() throws Exception
 	{
 		Celebrity c = daoCelebrity.get(selectedCelebrityId);
 		Movie m = daoMovie.get(selectedMovieId);
