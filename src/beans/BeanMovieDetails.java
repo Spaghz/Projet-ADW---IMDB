@@ -4,19 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
 import core.Award;
 import core.Celebrity;
 import core.Movie;
 import core.MovieUpdate;
+import core.Rate;
 import dao.DAOAward;
 import dao.DAOCelebrity;
 import dao.DAOMovie;
 import dao.DAOMovieUpdate;
+import dao.DAORate;
 import dao.jpa.DAOAwardJPA;
 import dao.jpa.DAOCelebrityJPA;
 import dao.jpa.DAOMovieJPA;
+import dao.jpa.DAORateJPA;
 import dao.jpa.DAOmovieUpdateJPA;
 
 
@@ -25,6 +29,7 @@ public class BeanMovieDetails {
 	private DAOMovie daoMovie = new DAOMovieJPA();
 	private DAOCelebrity daoCelebrity = new DAOCelebrityJPA();
 	private DAOMovieUpdate daoMovieUpdate = new DAOmovieUpdateJPA();
+	private DAORate daoRate = new DAORateJPA();
 	private DAOAward daoAward = new DAOAwardJPA();
 	private List<Celebrity> celebrities;
 	private List<Integer> actorsId;
@@ -33,38 +38,60 @@ public class BeanMovieDetails {
 	private FacesContext fc = FacesContext.getCurrentInstance();
 	private Boolean isDisplayable;
 	private MovieUpdate movieUpdate;
-	
+	private double rate;
+	private ArrayList<Boolean> stars = new ArrayList<Boolean>(5);
+
 	public BeanMovieDetails()
 	{
-		if (isModification(fc))
+		try
 		{
-			
-		}
-		else
-		{
-			Movie m = daoMovie.get(getMovieCode(FacesContext.getCurrentInstance()));
-			daoMovie.rankPlusOne(m);
-			m.setRank(m.getRank()+1);
-			setMovie(m);
-			movieUpdate = new MovieUpdate(movie);
-			
-			isDisplayable = this.movie==null?false:daoMovie.isDisplayable(this.movie);
-			
-			if (isDisplayable)
+			if (isModification(fc))
 			{
-				celebrities = daoCelebrity.loadLasts((int)daoCelebrity.count());
-				actorsId = new ArrayList<Integer>();
-				for(Celebrity c : movie.getActors())
-					actorsId.add(c.getId());
 				
-				producersId = new ArrayList<Integer>();
-				for(Celebrity c : movie.getProducers())
-					producersId.add(c.getId());		
-				
-				awards = daoAward.get(movie);
 			}
+			else
+			{
+				Movie m = daoMovie.get(getMovieCode(FacesContext.getCurrentInstance()));
+				daoMovie.rankPlusOne(m);
+				m.setRank(m.getRank()+1);
+				setMovie(m);
+				movieUpdate = new MovieUpdate(movie);
+				
+				isDisplayable = this.movie==null?false:daoMovie.isDisplayable(this.movie);
+				
+				if (isDisplayable)
+				{
+					celebrities = daoCelebrity.loadLasts((int)daoCelebrity.count());
+					actorsId = new ArrayList<Integer>();
+					for(Celebrity c : movie.getActors())
+						actorsId.add(c.getId());
+					
+					producersId = new ArrayList<Integer>();
+					for(Celebrity c : movie.getProducers())
+						producersId.add(c.getId());		
+					
+					awards = daoAward.get(movie);
+				}
+				
+				rate = daoRate.getRate(m.getId());
+				double fullStars = Math.floor(rate);
+				double emptyStars = 5-fullStars;
+				for(int i = 0; i < fullStars ; i++)
+					stars.add(true);
+				for(int i = 0 ; i < emptyStars ; i++)
+					stars.add(false);
+				
+			}
+						
 		}
-		
+		catch (Exception e)
+		{
+			 FacesMessage message = new FacesMessage();
+			 message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			 message.setSummary(e.getMessage());
+			 message.setDetail(e.getMessage());
+			 FacesContext.getCurrentInstance().addMessage(null, message);			
+		}
 
 	}
 	
@@ -154,4 +181,43 @@ public class BeanMovieDetails {
 	public void setAwards(List<Award> awards) {
 		this.awards = awards;
 	}
+
+	public ArrayList<Boolean> getStars() {
+		return stars;
+	}
+
+	public void setStars(ArrayList<Boolean> stars) {
+		this.stars = stars;
+	}
+	
+	public String rateMovie()
+	{
+		try
+		{
+			Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+			int idUser = Integer.parseInt(params.get("idUser"));
+			daoRate.save(new Rate(idUser, movie.getId(),rate));
+			return "index.xhtml";
+		}
+		catch (Exception e)
+		{
+			 FacesMessage message = new FacesMessage();
+			 message.setSeverity(FacesMessage.SEVERITY_ERROR);
+			 message.setSummary(e.getMessage());
+			 message.setDetail(e.getMessage());
+			 FacesContext.getCurrentInstance().addMessage(null, message);
+			 return "";
+		}
+	}
+
+	public double getRate() {
+		return rate;
+	}
+
+	public void setRate(double rate) {
+		this.rate = rate;
+	}
+	
+	
+	
 }

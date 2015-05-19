@@ -64,7 +64,7 @@ public class Movie {
 	@ManyToMany
 	@JoinTable(name = "play",
 		joinColumns = { 
-			@JoinColumn(table = "movies", name = "idMovie", referencedColumnName = "id") },
+			@JoinColumn(name = "idMovie", referencedColumnName = "id", table = "movies") },
 		inverseJoinColumns = { 
 			@JoinColumn(table = "celebrity", name = "idCelebrity", referencedColumnName = "id") })
 	private List<Celebrity> actors = new ArrayList<Celebrity>();

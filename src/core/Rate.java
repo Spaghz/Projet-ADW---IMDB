@@ -19,7 +19,7 @@ public class Rate {
 	private	int		idMovie = -1;	
 	
 	@Column(name="rate")
-	private int rate;
+	private double rate;
 
 	public Rate() {
 	}
@@ -30,13 +30,13 @@ public class Rate {
 		this.rate = 0;
 	}
 	
-	public Rate(User u,Movie m, int rate) {
+	public Rate(User u,Movie m, double rate) {
 		this.idUser = u.getId();
 		this.idMovie = m.getId();
 		this.rate = rate;
 	}
 
-	public Rate(int idUser, int idMovie, int rate) {
+	public Rate(int idUser, int idMovie, double rate) {
 		this.idUser = idUser;
 		this.idMovie = idMovie;
 		this.rate = rate;
@@ -65,11 +65,12 @@ public class Rate {
 		this.idMovie = idMovie;
 	}
 
-	public int getRate() {
+	public double getRate() {
 		return rate;
 	}
 
-	public void setRate(int rate) {
+	public void setRate(double rate) {
 		this.rate = rate;
 	}
+	
 }

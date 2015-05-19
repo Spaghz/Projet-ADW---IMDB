@@ -22,6 +22,7 @@ public class BeanSubscribe implements Serializable {
 	{
 		user = new User();
 		daoUser = new DAOUserJPA();
+		
 	}
 	
 	public String subscribe()

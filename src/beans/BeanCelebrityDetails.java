@@ -32,6 +32,13 @@ public class BeanCelebrityDetails {
 		awardGot = daoCelebrity.getAwards(this.celebrity);
 	}
 	
+	public int getCelebrityCode(FacesContext fc){
+		 
+		Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
+		return Integer.parseInt(params.get("id"));
+	}
+	
+	
 	public List<Movie> getMovieProduced() {
 		return movieProduced;
 	}
@@ -64,12 +71,6 @@ public class BeanCelebrityDetails {
 		this.awardGot = awardGot;
 	}
 
-	public int getCelebrityCode(FacesContext fc){
-		 
-		Map<String,String> params = fc.getExternalContext().getRequestParameterMap();
-		return Integer.parseInt(params.get("id"));
-	}
-	
 	public Celebrity getCelebrity() {
 		return celebrity;
 	}

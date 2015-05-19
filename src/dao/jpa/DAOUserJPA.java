@@ -101,7 +101,9 @@ public class DAOUserJPA implements DAOUser {
 	{
 		try
 		{
-			User user = (User)DAOJPAPublished.getManager().createQuery("select u from User u where u.nickName = :nickName").setParameter("nickName",nickName).getSingleResult();
+			User user = (User)DAOJPAPublished.getManager()
+					.createQuery("select u from User u where u.nickName = :nickName")
+					.setParameter("nickName",nickName).getSingleResult();
 			
 			if (user==null)
 				return null;
@@ -123,7 +125,10 @@ public class DAOUserJPA implements DAOUser {
 	public User getByEmail(String email) {
 		try
 		{
-			User user = (User)DAOJPAPublished.getManager().createQuery("select u from User u where u.email = :email").setParameter("email",email).getSingleResult();
+			User user = (User)DAOJPAPublished.getManager()
+					.createQuery("select u from User u where u.email = :email")
+					.setParameter("email",email)
+					.getSingleResult();
 		
 			if (user==null)
 				return null;
@@ -145,7 +150,9 @@ public class DAOUserJPA implements DAOUser {
 	{
 		try
 		{
-			return DAOJPAPublished.getManager().createQuery("select u.salt,u.password from User u where u.id = :id").setParameter("id",code).getSingleResult();
+			return DAOJPAPublished.getManager()
+					.createQuery("select u.salt,u.password from User u where u.id = :id")
+					.setParameter("id",code).getSingleResult();
 		}
 		catch (NoResultException e)
 		{
@@ -157,7 +164,9 @@ public class DAOUserJPA implements DAOUser {
 	public int getCodeByUsername(String username) {
 		try
 		{
-			return (int)DAOJPAPublished.getManager().createQuery("select u.id from User u where u.nickName = :nickName").setParameter("nickName",username).getSingleResult();
+			return (int)DAOJPAPublished.getManager()
+					.createQuery("select u.id from User u where u.nickName = :nickName")
+					.setParameter("nickName",username).getSingleResult();
 		}
 		catch (NoResultException e)
 		{
