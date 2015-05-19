@@ -99,7 +99,8 @@ public class DAOMovieJPA extends DAOJPAPublished implements DAOMovie {
 	public boolean exists(String movieTitle) {
 		return (DAOJPAPublished.getManager()
 				.createQuery("SELECT m FROM Movie m WHERE m.title LIKE :title")
-				.setParameter("title", movieTitle).getResultList().size() > 0);
+				.setParameter("title", movieTitle)
+				.getResultList().size() > 0);
 	}
 
 	@Override
